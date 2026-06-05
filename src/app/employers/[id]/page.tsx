@@ -5,7 +5,6 @@ import { FiArrowLeft, FiMapPin, FiUsers, FiGlobe, FiPhone, FiMail, FiBriefcase, 
 import { FiFacebook, FiTwitter, FiLinkedin, FiInstagram, FiGithub } from "react-icons/fi";
 import { getEmployerById, employers } from "@/data/employers";
 import { jobs } from "@/data/jobs";
-import JobCard from "@/components/shared/JobCard";
 
 export function generateStaticParams() {
   return employers.map((e) => ({ id: e.id }));
@@ -75,7 +74,16 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  {employerJobs.map((job) => <JobCard key={job.id} job={job} />)}
+                  {employerJobs.map((job) => (
+                    <Link
+                      key={job.id}
+                      href={`/jobs/${job.id}`}
+                      className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:border-blue-200 transition-colors"
+                    >
+                      <p className="font-semibold text-gray-900">{job.title}</p>
+                      <p className="text-sm text-gray-500 mt-1">{job.location} · {job.type}</p>
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>

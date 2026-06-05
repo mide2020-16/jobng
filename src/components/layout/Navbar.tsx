@@ -1,34 +1,25 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
-  FiMenu, FiX, FiChevronDown, FiUser, FiLogIn, FiBriefcase,
+  FiMenu, FiX, FiLogIn, FiBriefcase, FiLogOut,
 } from "react-icons/fi";
+import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  {
-    label: "Find Jobs",
-    href: "/jobs",
-    children: [
-      { label: "All Jobs", href: "/jobs" },
-      { label: "Featured Jobs", href: "/jobs?filter=featured" },
-      { label: "Remote Jobs", href: "/jobs?type=Remote" },
-      { label: "Part-Time Jobs", href: "/jobs?type=Part+Time" },
-      { label: "Internships", href: "/jobs?type=Internship" },
-    ],
-  },
-  { label: "Blog", href: "/blog" },
+  { label: "Find Jobs", href: "/jobs" },
   { label: "About Us", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [openMobileSub, setOpenMobileSub] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { isAuthenticated, logout, phone, ready } = useAuth();
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -71,89 +62,62 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <nav style={{ display: "none", alignItems: "center", gap: 4 }} className="desktop-nav">
             {navLinks.map((link) => (
-              <div
+              <Link
                 key={link.label}
-                style={{ position: "relative" }}
-                onMouseEnter={() => setOpenDropdown(link.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
+                href={link.href}
+                style={{
+                  display: "flex", alignItems: "center", gap: 4,
+                  padding: "8px 14px", borderRadius: 8,
+                  fontSize: 14, fontWeight: 500, textDecoration: "none",
+                  color: transparent
+                    ? (pathname === link.href ? "#fff" : "rgba(255,255,255,0.85)")
+                    : (pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "#1967D2" : "#374151"),
+                  background: "transparent",
+                  transition: "color 0.2s, background 0.2s",
+                }}
               >
-                <Link
-                  href={link.href}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 4,
-                    padding: "8px 14px", borderRadius: 8,
-                    fontSize: 14, fontWeight: 500, textDecoration: "none",
-                    color: transparent
-                      ? (pathname === link.href ? "#fff" : "rgba(255,255,255,0.85)")
-                      : (pathname === link.href || pathname.startsWith(link.href) && link.href !== "/" ? "#1967D2" : "#374151"),
-                    background: "transparent",
-                    transition: "color 0.2s, background 0.2s",
-                  }}
-                >
-                  {link.label}
-                  {link.children && (
-                    <FiChevronDown
-                      size={13}
-                      style={{
-                        transition: "transform 0.2s",
-                        transform: openDropdown === link.label ? "rotate(180deg)" : "none",
-                      }}
-                    />
-                  )}
-                </Link>
-
-                {link.children && openDropdown === link.label && (
-                  <div
-                    style={{
-                      position: "absolute", top: "100%", left: 0, paddingTop: 8,
-                      minWidth: 200, zIndex: 100,
-                    }}
-                  >
-                    <div
-                      style={{
-                        background: "#fff", borderRadius: 12,
-                        boxShadow: "0 8px 40px rgba(0,0,0,0.12)", border: "1px solid #f0f0f0",
-                        overflow: "hidden", padding: "6px 0",
-                      }}
-                    >
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          style={{
-                            display: "block", padding: "10px 16px",
-                            fontSize: 14, color: "#374151",
-                            textDecoration: "none",
-                            transition: "background 0.15s, color 0.15s",
-                          }}
-                          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#eff6ff"; (e.currentTarget as HTMLElement).style.color = "#1967D2"; }}
-                          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = ""; (e.currentTarget as HTMLElement).style.color = "#374151"; }}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+                {link.label}
+              </Link>
             ))}
           </nav>
 
           {/* Right Actions */}
           <div style={{ display: "none", alignItems: "center", gap: 8, flexShrink: 0 }} className="desktop-actions">
-            <Link
-              href="/login"
-              style={{
-                display: "flex", alignItems: "center", gap: 6,
-                background: "#1967D2", color: "#fff",
-                fontSize: 14, fontWeight: 600, textDecoration: "none",
-                padding: "9px 20px", borderRadius: 10,
-                boxShadow: "0 2px 8px rgba(25,103,210,0.25)",
-              }}
-            >
-              <FiLogIn size={15} />
-              Login / Register
-            </Link>
+            {ready && isAuthenticated ? (
+              <>
+                <span style={{ fontSize: 13, color: transparent ? "rgba(255,255,255,0.85)" : "#6b7280" }}>
+                  {phone ? `···${phone.slice(-4)}` : "Signed in"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => { logout(); router.push("/"); }}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 6,
+                    background: "transparent", color: transparent ? "#fff" : "#374151",
+                    fontSize: 14, fontWeight: 600,
+                    padding: "9px 16px", borderRadius: 10,
+                    border: transparent ? "1px solid rgba(255,255,255,0.3)" : "1px solid #e5e7eb",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FiLogOut size={15} /> Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                style={{
+                  display: "flex", alignItems: "center", gap: 6,
+                  background: "#1967D2", color: "#fff",
+                  fontSize: 14, fontWeight: 600, textDecoration: "none",
+                  padding: "9px 20px", borderRadius: 10,
+                  boxShadow: "0 2px 8px rgba(25,103,210,0.25)",
+                }}
+              >
+                <FiLogIn size={15} />
+                Login / Register
+              </Link>
+            )}
           </div>
 
           {/* Mobile Hamburger */}
@@ -219,69 +183,51 @@ export default function Navbar() {
         {/* Nav Links */}
         <nav style={{ padding: "12px 0" }}>
           {navLinks.map((link) => (
-            <div key={link.label}>
-              {link.children ? (
-                <>
-                  <button
-                    onClick={() => setOpenMobileSub(openMobileSub === link.label ? null : link.label)}
-                    style={{
-                      width: "100%", display: "flex", alignItems: "center",
-                      justifyContent: "space-between", padding: "12px 20px",
-                      background: "none", border: "none", cursor: "pointer",
-                      fontSize: 15, fontWeight: 500, color: "#374151",
-                      textAlign: "left",
-                    }}
-                  >
-                    {link.label}
-                    <FiChevronDown size={14} style={{ transform: openMobileSub === link.label ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
-                  </button>
-                  {openMobileSub === link.label && (
-                    <div style={{ background: "#f8fafc", borderLeft: "3px solid #1967D2", marginLeft: 20 }}>
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          onClick={() => setMobileOpen(false)}
-                          style={{ display: "block", padding: "10px 20px", fontSize: 14, color: "#6b7280", textDecoration: "none" }}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  style={{
-                    display: "block", padding: "12px 20px",
-                    fontSize: 15, fontWeight: 500, textDecoration: "none",
-                    color: pathname === link.href ? "#1967D2" : "#374151",
-                    background: pathname === link.href ? "#eff6ff" : "transparent",
-                  }}
-                >
-                  {link.label}
-                </Link>
-              )}
-            </div>
+            <Link
+              key={link.label}
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                display: "block", padding: "12px 20px",
+                fontSize: 15, fontWeight: 500, textDecoration: "none",
+                color: pathname === link.href ? "#1967D2" : "#374151",
+                background: pathname === link.href ? "#eff6ff" : "transparent",
+              }}
+            >
+              {link.label}
+            </Link>
           ))}
         </nav>
 
-        {/* Mobile CTAs */}
         <div style={{ padding: "16px 20px", borderTop: "1px solid #f0f0f0" }}>
-          <Link
-            href="/login"
-            onClick={() => setMobileOpen(false)}
-            style={{
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-              padding: "12px", borderRadius: 10,
-              background: "#1967D2", color: "#fff",
-              fontSize: 14, fontWeight: 600, textDecoration: "none",
-            }}
-          >
-            <FiUser size={14} /> Login / Register
-          </Link>
+          {ready && isAuthenticated ? (
+            <button
+              type="button"
+              onClick={() => { logout(); setMobileOpen(false); router.push("/"); }}
+              style={{
+                width: "100%",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                padding: "12px", borderRadius: 10,
+                background: "#f3f4f6", color: "#374151",
+                fontSize: 14, fontWeight: 600, border: "none", cursor: "pointer",
+              }}
+            >
+              <FiLogOut size={14} /> Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                padding: "12px", borderRadius: 10,
+                background: "#1967D2", color: "#fff",
+                fontSize: 14, fontWeight: 600, textDecoration: "none",
+              }}
+            >
+              <FiLogIn size={14} /> Login / Register
+            </Link>
+          )}
         </div>
       </div>
     </>

@@ -1,24 +1,21 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import {
-  FiBriefcase, FiPhone, FiUser, FiCheckCircle, FiEye, FiEyeOff, FiChevronDown,
+  FiBriefcase, FiPhone, FiCheckCircle, FiEye, FiEyeOff, FiChevronDown,
 } from "react-icons/fi";
+import { useAuth } from "@/context/AuthContext";
 
 type Tab = "login" | "register";
-type Role = "candidate" | "employer";
 
 const countryCodes = [
+  { code: "+234", flag: "🇳🇬", name: "NG" },
   { code: "+1",   flag: "🇺🇸", name: "US" },
   { code: "+44",  flag: "🇬🇧", name: "UK" },
-  { code: "+234", flag: "🇳🇬", name: "NG" },
-  { code: "+49",  flag: "🇩🇪", name: "DE" },
-  { code: "+33",  flag: "🇫🇷", name: "FR" },
-  { code: "+91",  flag: "🇮🇳", name: "IN" },
   { code: "+27",  flag: "🇿🇦", name: "ZA" },
   { code: "+254", flag: "🇰🇪", name: "KE" },
-  { code: "+55",  flag: "🇧🇷", name: "BR" },
-  { code: "+86",  flag: "🇨🇳", name: "CN" },
 ];
 
 function PhoneInput({
@@ -160,40 +157,88 @@ function PinInput({
   );
 }
 
-export default function LoginPage() {
-  const [tab, setTab]     = useState<Tab>("login");
-  const [role, setRole]   = useState<Role>("candidate");
+function LoginPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/jobs";
+  const { setSession } = useAuth();
+
+  const [tab, setTab] = useState<Tab>("login");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Login form
-  const [loginPhone,   setLoginPhone]   = useState("");
-  const [loginCountry, setLoginCountry] = useState("+1");
-  const [loginPin,     setLoginPin]     = useState("");
+  const [loginPhone, setLoginPhone] = useState("");
+  const [loginCountry, setLoginCountry] = useState("+234");
+  const [loginPin, setLoginPin] = useState("");
 
-  // Register form
-  const [regPhone,   setRegPhone]   = useState("");
-  const [regCountry, setRegCountry] = useState("+1");
-  const [regName,    setRegName]    = useState("");
-  const [regPin,     setRegPin]     = useState("");
+  const [regPhone, setRegPhone] = useState("");
+  const [regCountry, setRegCountry] = useState("+234");
+  const [regPin, setRegPin] = useState("");
   const [regConfirm, setRegConfirm] = useState("");
-  const [regTerms,   setRegTerms]   = useState(false);
-  const [pinError,   setPinError]   = useState("");
+  const [regTerms, setRegTerms] = useState(false);
+  const [pinError, setPinError] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (loginPin.length < 6) return;
+    setError("");
+    if (loginPin.length < 4) return;
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSuccess(true); }, 900);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: loginPhone, pin: loginPin, countryCode: loginCountry }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setError(data.error ?? "Invalid phone or PIN.");
+        return;
+      }
+      setSession(data.token, data.phone);
+      setSuccess(true);
+      setTimeout(() => router.push(callbackUrl), 800);
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (regPin.length < 6) { setPinError("PIN must be 6 digits"); return; }
+    setError("");
+    if (regPin.length < 4) { setPinError("PIN must be at least 4 digits"); return; }
     if (regPin !== regConfirm) { setPinError("PINs do not match"); return; }
+    if (!regTerms) { setError("Please accept the terms."); return; }
     setPinError("");
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSuccess(true); }, 900);
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: regPhone,
+          pin: regPin,
+          confirmPin: regConfirm,
+          countryCode: regCountry,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setError(data.error ?? "Could not create account.");
+        return;
+      }
+      setTab("login");
+      setLoginPhone(regPhone);
+      setLoginCountry(regCountry);
+      setError("");
+      alert("Account created! Sign in with your PIN.");
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   /* ── Success screen ─────────────────────── */
@@ -262,10 +307,11 @@ export default function LoginPage() {
                 <h2 style={{ fontSize: 20, fontWeight: 800, color: "#111827", marginBottom: 4 }}>Welcome back</h2>
                 <p style={{ fontSize: 13, color: "#9ca3af", marginBottom: 24 }}>Enter your phone number and PIN to continue</p>
 
-                {/* Demo hint */}
-                <div style={{ background: "#eff6ff", borderRadius: 10, padding: "10px 14px", marginBottom: 20, fontSize: 12, color: "#1967D2", border: "1px solid #bfdbfe" }}>
-                  <strong>Demo:</strong> Enter any phone number and any 6-digit PIN to test login
-                </div>
+                {error && (
+                  <div style={{ background: "#fef2f2", color: "#b91c1c", padding: "10px 14px", borderRadius: 10, fontSize: 13, marginBottom: 16 }}>
+                    {error}
+                  </div>
+                )}
 
                 <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                   <div>
@@ -285,19 +331,19 @@ export default function LoginPage() {
                       <input type="checkbox" style={{ width: 15, height: 15, accentColor: "#1967D2" }} />
                       Keep me signed in
                     </label>
-                    <button type="button" style={{ background: "none", border: "none", color: "#1967D2", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+                    <Link href="/forgot-password" style={{ color: "#1967D2", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
                       Forgot PIN?
-                    </button>
+                    </Link>
                   </div>
 
                   <button
                     type="submit"
-                    disabled={loading || loginPhone.length < 7 || loginPin.length < 6}
+                    disabled={loading || loginPhone.length < 7 || loginPin.length < 4}
                     style={{
-                      background: loading || loginPhone.length < 7 || loginPin.length < 6 ? "#93c5fd" : "#1967D2",
+                      background: loading || loginPhone.length < 7 || loginPin.length < 4 ? "#93c5fd" : "#1967D2",
                       color: "#fff", border: "none", borderRadius: 12,
                       padding: "14px", fontSize: 15, fontWeight: 700,
-                      cursor: loading || loginPhone.length < 7 || loginPin.length < 6 ? "not-allowed" : "pointer",
+                      cursor: loading || loginPhone.length < 7 || loginPin.length < 4 ? "not-allowed" : "pointer",
                       display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                     }}
                   >
@@ -313,48 +359,15 @@ export default function LoginPage() {
             {tab === "register" && (
               <>
                 <h2 style={{ fontSize: 20, fontWeight: 800, color: "#111827", marginBottom: 4 }}>Create your account</h2>
-                <p style={{ fontSize: 13, color: "#9ca3af", marginBottom: 20 }}>Join thousands of professionals on JustJobNG</p>
+                <p style={{ fontSize: 13, color: "#9ca3af", marginBottom: 20 }}>Sign up with your phone number and a secure PIN</p>
 
-                {/* Role toggle */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 22 }}>
-                  {(["candidate", "employer"] as Role[]).map((r) => (
-                    <button
-                      key={r}
-                      type="button"
-                      onClick={() => setRole(r)}
-                      style={{
-                        display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-                        padding: "10px", borderRadius: 10, border: "1.5px solid",
-                        borderColor: role === r ? "#1967D2" : "#e5e7eb",
-                        background: role === r ? "#eff6ff" : "#fff",
-                        color: role === r ? "#1967D2" : "#6b7280",
-                        fontSize: 13, fontWeight: 600, cursor: "pointer",
-                      }}
-                    >
-                      {r === "candidate" ? <FiUser size={14} /> : <FiBriefcase size={14} />}
-                      {r === "candidate" ? "Candidate" : "Employer"}
-                    </button>
-                  ))}
-                </div>
+                {error && (
+                  <div style={{ background: "#fef2f2", color: "#b91c1c", padding: "10px 14px", borderRadius: 10, fontSize: 13, marginBottom: 16 }}>
+                    {error}
+                  </div>
+                )}
 
                 <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-                  {/* Full name */}
-                  <div>
-                    <label style={inputLabel}>Full Name</label>
-                    <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #e2e8f0", borderRadius: 12, overflow: "hidden" }}>
-                      <FiUser style={{ color: "#9ca3af", marginLeft: 12, flexShrink: 0 }} size={15} />
-                      <input
-                        required
-                        type="text"
-                        value={regName}
-                        onChange={(e) => setRegName(e.target.value)}
-                        placeholder="Your full name"
-                        style={{ flex: 1, border: "none", outline: "none", padding: "12px 14px", fontSize: 14, color: "#374151", background: "transparent" }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Phone */}
                   <div>
                     <label style={inputLabel}>Phone Number</label>
                     <PhoneInput
@@ -417,7 +430,7 @@ export default function LoginPage() {
                   >
                     {loading
                       ? <><span style={{ width: 16, height: 16, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} /> Creating account...</>
-                      : `Register as ${role === "candidate" ? "Candidate" : "Employer"}`}
+                      : "Create account"}
                   </button>
                 </form>
               </>
@@ -446,5 +459,17 @@ export default function LoginPage() {
         @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: "100vh", background: "#f8fafc", paddingTop: 80, display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280" }}>
+        Loading…
+      </div>
+    }>
+      <LoginPageContent />
+    </Suspense>
   );
 }

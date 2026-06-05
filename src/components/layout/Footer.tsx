@@ -3,26 +3,15 @@ import Link from "next/link";
 import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiPhone, FiMapPin, FiBriefcase, FiMail } from "react-icons/fi";
 
 const footerLinks = {
-  candidates: [
-    { label: "Browse Jobs",          href: "/jobs" },
-    { label: "Browse Candidates",    href: "/candidates" },
-    { label: "Candidate Dashboard",  href: "/login" },
-    { label: "Job Alerts",           href: "/login" },
-    { label: "My Bookmarks",         href: "/login" },
+  explore: [
+    { label: "Browse Jobs", href: "/jobs" },
+    { label: "Login / Register", href: "/login" },
+    { label: "Forgot PIN", href: "/forgot-password" },
   ],
-  employers: [
-    { label: "All Employers",        href: "/employers" },
-    { label: "Employer Dashboard",   href: "/login" },
-    { label: "Post a Job",           href: "/post-job" },
-    { label: "Job Packages",         href: "/pricing" },
-  ],
-  about: [
-    { label: "About Us",             href: "/about" },
-    { label: "Contact Us",           href: "/contact" },
-    { label: "Pricing",              href: "/pricing" },
-    { label: "FAQ",                  href: "/faq" },
-    { label: "Terms",                href: "#" },
-    { label: "Privacy Policy",       href: "#" },
+  company: [
+    { label: "About Us", href: "/about" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "FAQ", href: "/faq" },
   ],
 };
 
@@ -72,12 +61,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Candidates */}
           <div>
             <h3 style={{ fontSize: 12, fontWeight: 700, color: "#fff", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 20 }}>
-              For Candidates
+              Explore
             </h3>
-            {footerLinks.candidates.map((l) => (
+            {footerLinks.explore.map((l) => (
               <Link key={l.href + l.label} href={l.href} style={linkStyle}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#60a5fa")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}
@@ -85,25 +73,11 @@ export default function Footer() {
             ))}
           </div>
 
-          {/* Employers */}
           <div>
             <h3 style={{ fontSize: 12, fontWeight: 700, color: "#fff", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 20 }}>
-              For Employers
+              Company
             </h3>
-            {footerLinks.employers.map((l) => (
-              <Link key={l.href + l.label} href={l.href} style={linkStyle}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#60a5fa")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}
-              >{l.label}</Link>
-            ))}
-          </div>
-
-          {/* About */}
-          <div>
-            <h3 style={{ fontSize: 12, fontWeight: 700, color: "#fff", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 20 }}>
-              About Us
-            </h3>
-            {footerLinks.about.map((l) => (
+            {footerLinks.company.map((l) => (
               <Link key={l.href + l.label} href={l.href} style={linkStyle}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#60a5fa")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}

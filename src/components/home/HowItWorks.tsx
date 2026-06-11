@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import SectionHeader from "@/components/shared/SectionHeader";
 
 const steps = [
-  { icon: FiSearch,       step: "01", title: "Search for Jobs",   bg: "#FEF3C7", color: "#E8920F", border: "#FDE68A", desc: "Browse thousands of job listings filtered by location, category, salary, and job type to find your perfect match." },
+  { icon: FiSearch,       step: "01", title: "Search for Jobs",   bg: "#E6F6E6", color: "#00863F", border: "#BDE5A8", desc: "Browse thousands of job listings filtered by location, category, salary, and job type to find your perfect match." },
   { icon: FiFileText,     step: "02", title: "Create Your Profile", bg: "#f0fdf4", color: "#16a34a", border: "#bbf7d0", desc: "Build a professional profile that showcases your skills, experience, and portfolio. Make employers notice you." },
   { icon: FiSend,         step: "03", title: "Apply Instantly",    bg: "#faf5ff", color: "#7c3aed", border: "#e9d5ff", desc: "Apply to multiple jobs with a single click. Track your application status in real time from your dashboard." },
   { icon: FiCheckCircle,  step: "04", title: "Get Hired",          bg: "#fff7ed", color: "#ea580c", border: "#fed7aa", desc: "Land interviews, negotiate offers, and start your new role. Thousands of candidates find jobs here every month." },

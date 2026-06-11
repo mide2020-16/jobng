@@ -38,16 +38,16 @@ const faqs = [
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`border border-gray-200 rounded-xl overflow-hidden transition-all ${open ? "border-amber-200 shadow-sm" : ""}`}>
+    <div className={`border border-gray-200 rounded-xl overflow-hidden transition-all ${open ? "border-green-200 shadow-sm" : ""}`}>
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-start justify-between gap-4 px-5 py-4 text-left bg-white hover:bg-gray-50 transition-colors"
       >
-        <span className={`text-sm font-semibold ${open ? "text-amber-600" : "text-gray-800"}`}>{q}</span>
-        <FiChevronDown className={`shrink-0 text-gray-400 transition-transform mt-0.5 ${open ? "rotate-180 text-amber-500" : ""}`} size={16} />
+        <span className={`text-sm font-semibold ${open ? "text-green-600" : "text-gray-800"}`}>{q}</span>
+        <FiChevronDown className={`shrink-0 text-gray-400 transition-transform mt-0.5 ${open ? "rotate-180 text-green-500" : ""}`} size={16} />
       </button>
       {open && (
-        <div className="px-5 pb-4 bg-amber-50/30 border-t border-amber-100">
+        <div className="px-5 pb-4 bg-green-50/30 border-t border-green-100">
           <p className="text-sm text-gray-600 leading-relaxed pt-3">{a}</p>
         </div>
       )}
@@ -76,12 +76,12 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-gray-900 to-amber-950 py-14 text-center">
+      <div className="bg-gradient-to-r from-gray-900 to-green-950 py-14 text-center">
         <div className="max-w-2xl mx-auto px-4">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Frequently Asked Questions</h1>
-          <p className="text-amber-200 mb-7">Find answers to common questions about JustJobNG.</p>
+          <p className="text-green-200 mb-7">Find answers to common questions about JustJobNG.</p>
           <div className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 max-w-md mx-auto shadow-lg">
-            <FiSearch className="text-amber-500 shrink-0" size={16} />
+            <FiSearch className="text-green-500 shrink-0" size={16} />
             <input
               type="text"
               placeholder="Search questions..."
@@ -102,8 +102,8 @@ export default function FAQPage() {
               onClick={() => setActiveTab(tab)}
               className={`text-sm px-4 py-2 rounded-full font-medium transition-colors ${
                 activeTab === tab
-                  ? "bg-amber-600 text-white"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-amber-300"
+                  ? "bg-green-600 text-white"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-green-300"
               }`}
             >
               {tab}
@@ -123,7 +123,7 @@ export default function FAQPage() {
             {filtered.map((cat) => (
               <div key={cat.category}>
                 <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <span className="w-1 h-5 bg-amber-600 rounded-full" />
+                  <span className="w-1 h-5 bg-green-600 rounded-full" />
                   {cat.category}
                 </h2>
                 <div className="space-y-3">
@@ -137,12 +137,12 @@ export default function FAQPage() {
         )}
 
         {/* Still have questions */}
-        <div className="mt-14 bg-amber-600 rounded-2xl p-8 text-center">
+        <div className="mt-14 bg-green-600 rounded-2xl p-8 text-center">
           <h3 className="text-xl font-bold text-white mb-2">Still have questions?</h3>
-          <p className="text-amber-100 text-sm mb-5">Can&apos;t find what you&apos;re looking for? Our support team is here to help.</p>
+          <p className="text-green-100 text-sm mb-5">Can&apos;t find what you&apos;re looking for? Our support team is here to help.</p>
           <Link
             href="/contact"
-            className="inline-block bg-white text-amber-600 font-bold px-8 py-3 rounded-xl hover:bg-amber-50 transition-colors text-sm"
+            className="inline-block bg-white text-green-600 font-bold px-8 py-3 rounded-xl hover:bg-green-50 transition-colors text-sm"
           >
             Contact Support
           </Link>

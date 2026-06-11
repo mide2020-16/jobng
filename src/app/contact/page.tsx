@@ -15,10 +15,10 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-gray-900 to-amber-950 py-14 text-center">
+      <div className="bg-gradient-to-r from-gray-900 to-green-950 py-14 text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Get In Touch</h1>
-          <p className="text-amber-200">We&apos;d love to hear from you. Send us a message and we&apos;ll respond within 24 hours.</p>
+          <p className="text-green-200">We&apos;d love to hear from you. Send us a message and we&apos;ll respond within 24 hours.</p>
         </div>
       </div>
 
@@ -50,7 +50,7 @@ export default function ContactPage() {
                   <p className="text-gray-500 text-sm">Thank you for reaching out. Our team will get back to you within 24 hours.</p>
                   <button
                     onClick={() => { setSubmitted(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
-                    className="mt-6 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors"
+                    className="mt-6 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors"
                   >
                     Send Another Message
                   </button>
@@ -67,7 +67,7 @@ export default function ContactPage() {
                           type="text"
                           value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-50 transition-all"
+                          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all"
                           placeholder="Your full name"
                         />
                       </div>
@@ -78,7 +78,7 @@ export default function ContactPage() {
                           type="email"
                           value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-50 transition-all"
+                          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all"
                           placeholder="your@email.com"
                         />
                       </div>
@@ -90,7 +90,7 @@ export default function ContactPage() {
                         type="text"
                         value={form.subject}
                         onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-50 transition-all"
+                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all"
                         placeholder="How can we help you?"
                       />
                     </div>
@@ -101,14 +101,14 @@ export default function ContactPage() {
                         rows={5}
                         value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
-                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-50 transition-all resize-none"
+                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all resize-none"
                         placeholder="Tell us more about your inquiry..."
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={loading}
-                      className="flex items-center justify-center gap-2 w-full bg-amber-600 hover:bg-amber-700 disabled:bg-amber-400 text-white font-bold py-3 rounded-xl transition-colors text-sm"
+                      className="flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-3 rounded-xl transition-colors text-sm"
                     >
                       {loading ? (
                         <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Sending...</span>

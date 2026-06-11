@@ -13,15 +13,15 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white pt-20">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-gray-900 via-amber-950 to-gray-900 py-20 text-center">
+      <section className="bg-gradient-to-br from-gray-900 via-green-950 to-gray-900 py-20 text-center">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <span className="inline-block bg-amber-600/20 text-amber-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5 border border-amber-500/30">
+          <span className="inline-block bg-green-600/20 text-green-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5 border border-green-500/30">
             Our Story
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-5 leading-tight">
-            We&apos;re on a mission to connect <span className="text-amber-400">great talent</span> with great companies
+            We&apos;re on a mission to connect <span className="text-green-400">great talent</span> with great companies
           </h1>
-          <p className="text-amber-200 text-lg leading-relaxed">
+          <p className="text-green-200 text-lg leading-relaxed">
             JustJobNG was founded in 2018 with a simple belief: finding the right job shouldn&apos;t be hard. 
             Today we serve millions of job seekers and thousands of employers worldwide.
           </p>
@@ -39,7 +39,7 @@ export default function AboutPage() {
               { value: "180+", label: "Countries" },
             ].map(({ value, label }) => (
               <div key={label}>
-                <div className="text-3xl font-extrabold text-amber-600 mb-1">{value}</div>
+                <div className="text-3xl font-extrabold text-green-600 mb-1">{value}</div>
                 <div className="text-sm text-gray-500 font-medium">{label}</div>
               </div>
             ))}
@@ -52,7 +52,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3 block">Who We Are</span>
+              <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-3 block">Who We Are</span>
               <h2 className="text-3xl font-bold text-gray-900 mb-5 leading-tight">
                 Building the world&apos;s most trusted job platform
               </h2>
@@ -68,7 +68,7 @@ export default function AboutPage() {
               </p>
               <Link
                 href="/jobs"
-                className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
               >
                 Browse Open Jobs <FiArrowRight size={14} />
               </Link>
@@ -89,14 +89,14 @@ export default function AboutPage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-2 block">What Drives Us</span>
+            <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-2 block">What Drives Us</span>
             <h2 className="text-3xl font-bold text-gray-900">Our Core Values</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
-                  <Icon className="text-amber-600" size={22} />
+                <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4">
+                  <Icon className="text-green-600" size={22} />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
@@ -110,7 +110,7 @@ export default function AboutPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-2 block">The People Behind JustJobNG</span>
+            <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-2 block">The People Behind JustJobNG</span>
             <h2 className="text-3xl font-bold text-gray-900">Meet Our Team</h2>
           </div>
           <div className="max-w-md mx-auto text-center bg-gray-50 border border-dashed border-gray-200 rounded-2xl py-14 px-6">
@@ -126,15 +126,15 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-amber-600 text-center">
+      <section className="py-16 bg-green-600 text-center">
         <div className="max-w-2xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-white mb-3">Ready to find your next opportunity?</h2>
-          <p className="text-amber-100 mb-7">Join millions of professionals who trust JustJobNG for their careers.</p>
+          <p className="text-green-100 mb-7">Join millions of professionals who trust JustJobNG for their careers.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/jobs" className="bg-white text-amber-600 font-bold px-8 py-3 rounded-xl hover:bg-amber-50 transition-colors text-sm">
+            <Link href="/jobs" className="bg-white text-green-600 font-bold px-8 py-3 rounded-xl hover:bg-green-50 transition-colors text-sm">
               Browse Jobs
             </Link>
-            <Link href="/post-job" className="bg-amber-800 hover:bg-amber-900 text-white font-bold px-8 py-3 rounded-xl transition-colors text-sm">
+            <Link href="/post-job" className="bg-green-800 hover:bg-green-900 text-white font-bold px-8 py-3 rounded-xl transition-colors text-sm">
               Post a Job
             </Link>
           </div>

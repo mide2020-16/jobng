@@ -110,7 +110,7 @@ export default function Navbar() {
         .jj-nav__link--on-dark { color: rgba(10,15,28,0.7); }
         .jj-nav__link--on-dark:hover { color: #0A0F1C; background: rgba(10,15,28,0.06); }
         .jj-nav__link--active { color: var(--gold-hover) !important; }
-        .jj-nav__link--on-dark.jj-nav__link--active { color: #78350F !important; }
+        .jj-nav__link--on-dark.jj-nav__link--active { color: #055A2B !important; }
         .jj-nav__actions { display: none; align-items: center; gap: 10px; }
         .jj-nav__phone { font-size: 0.8125rem; color: var(--text-muted); font-weight: 600; }
         .jj-nav__phone--on-dark { color: rgba(10,15,28,0.6); }

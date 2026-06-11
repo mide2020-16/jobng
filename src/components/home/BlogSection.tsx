@@ -18,7 +18,7 @@ export default function BlogSection() {
             center={false}
           />
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} style={{ marginBottom: 40 }}>
-            <Link href="/blog" style={{ fontSize: 13, fontWeight: 600, color: "#E8920F", textDecoration: "none", border: "1.5px solid #FCD34D", padding: "8px 18px", borderRadius: 8, whiteSpace: "nowrap", display: "inline-block" }}>
+            <Link href="/blog" style={{ fontSize: 13, fontWeight: 600, color: "#00863F", textDecoration: "none", border: "1.5px solid #A6D86F", padding: "8px 18px", borderRadius: 8, whiteSpace: "nowrap", display: "inline-block" }}>
               View All Posts →
             </Link>
           </motion.div>
@@ -37,7 +37,7 @@ export default function BlogSection() {
             >
               <Link href={`/blog/${post.slug}`} style={{ display: "block", position: "relative", height: 200 }}>
                 <Image src={post.image} alt={post.title} fill style={{ objectFit: "cover" }} />
-                <span style={{ position: "absolute", top: 12, left: 12, background: "#E8920F", color: "#fff", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 99 }}>
+                <span style={{ position: "absolute", top: 12, left: 12, background: "#00863F", color: "#fff", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 99 }}>
                   {post.category}
                 </span>
               </Link>
@@ -63,7 +63,7 @@ export default function BlogSection() {
                     </div>
                     <span style={{ fontSize: 12, fontWeight: 500, color: "#374151" }}>{post.author}</span>
                   </div>
-                  <Link href={`/blog/${post.slug}`} style={{ fontSize: 12, color: "#E8920F", fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 4 }}>
+                  <Link href={`/blog/${post.slug}`} style={{ fontSize: 12, color: "#00863F", fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 4 }}>
                     Read More <FiArrowRight size={12} />
                   </Link>
                 </div>

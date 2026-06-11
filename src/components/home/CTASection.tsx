@@ -9,7 +9,7 @@ export default function CTASection() {
       style={{
         position: "relative",
         overflow: "hidden",
-        background: "linear-gradient(135deg, #0A0F1C 0%, #1A1206 45%, #78350F 100%)",
+        background: "linear-gradient(135deg, #0A0F1C 0%, #052914 45%, #00692F 100%)",
         padding: "80px 0",
       }}
     >
@@ -17,12 +17,12 @@ export default function CTASection() {
       <motion.div
         animate={{ scale: [1, 1.12, 1], opacity: [0.15, 0.25, 0.15] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        style={{ position: "absolute", top: "-60px", right: "-60px", width: 300, height: 300, background: "rgba(245,166,35,0.18)", borderRadius: "50%", filter: "blur(60px)", pointerEvents: "none" }}
+        style={{ position: "absolute", top: "-60px", right: "-60px", width: 300, height: 300, background: "rgba(0,166,81,0.18)", borderRadius: "50%", filter: "blur(60px)", pointerEvents: "none" }}
       />
       <motion.div
         animate={{ scale: [1, 1.09, 1], opacity: [0.1, 0.18, 0.1] }}
         transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        style={{ position: "absolute", bottom: "-40px", left: "10%", width: 250, height: 250, background: "rgba(255,209,102,0.12)", borderRadius: "50%", filter: "blur(60px)", pointerEvents: "none" }}
+        style={{ position: "absolute", bottom: "-40px", left: "10%", width: 250, height: 250, background: "rgba(141,198,63,0.12)", borderRadius: "50%", filter: "blur(60px)", pointerEvents: "none" }}
       />
 
       {/* Grid dots */}
@@ -47,9 +47,9 @@ export default function CTASection() {
             </span>
             <h2 style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", fontWeight: 900, color: "#fff", lineHeight: 1.2, marginBottom: 14, letterSpacing: "-0.02em" }}>
               The Smarter Way to Find Your{" "}
-              <span style={{ color: "#FFD166" }}>Next Opportunity</span>
+              <span style={{ color: "#8DC63F" }}>Next Opportunity</span>
             </h2>
-            <p style={{ fontSize: 16, color: "rgba(255,224,178,0.88)", lineHeight: 1.7, maxWidth: 460 }}>
+            <p style={{ fontSize: 16, color: "rgba(205,235,176,0.88)", lineHeight: 1.7, maxWidth: 460 }}>
               Join over 4 million professionals already using JustJobNG. Whether you&apos;re looking for your first job or your next big career move — we&apos;ve got you covered.
             </p>
           </motion.div>
@@ -67,7 +67,7 @@ export default function CTASection() {
                 href="/jobs"
                 style={{
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
-                  background: "#fff", color: "#B45309",
+                  background: "#fff", color: "#00692F",
                   fontWeight: 700, fontSize: 15, textDecoration: "none",
                   padding: "15px 32px", borderRadius: 12,
                   boxShadow: "0 4px 20px rgba(0,0,0,0.2)",

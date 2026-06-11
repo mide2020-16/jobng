@@ -144,7 +144,7 @@ export default function JobDetailPage() {
       {/* Body */}
       <div className="jj-detail__body">
         <div className="container-xl jj-detail__grid">
-          <div>
+              <div>
             {job.description && (
               <div className="jj-card" style={{ padding: "1.75rem 2rem" }}>
                 <h2 className="jj-detail__section-title">About this role</h2>

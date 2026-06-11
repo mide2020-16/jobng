@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
       <div style={{ width: "100%", maxWidth: 440 }}>
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <div style={{ width: 40, height: 40, background: "#E8920F", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ width: 40, height: 40, background: "#00863F", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <FiBriefcase style={{ color: "#fff", fontSize: 20 }} />
             </div>
             <span style={{ fontSize: 22, fontWeight: 800, color: "#111827" }}>JustJobNG</span>
@@ -140,7 +140,7 @@ export default function ForgotPasswordPage() {
                 type="submit"
                 disabled={loading}
                 style={{
-                  background: loading ? "#FBBF24" : "#E8920F",
+                  background: loading ? "#6CC04A" : "#00863F",
                   color: "#fff", border: "none", borderRadius: 12, padding: "14px",
                   fontSize: 15, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer",
                 }}
@@ -170,7 +170,7 @@ export default function ForgotPasswordPage() {
                 type="submit"
                 disabled={loading}
                 style={{
-                  background: loading ? "#FBBF24" : "#E8920F",
+                  background: loading ? "#6CC04A" : "#00863F",
                   color: "#fff", border: "none", borderRadius: 12, padding: "14px",
                   fontSize: 15, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer",
                 }}
@@ -180,7 +180,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="button"
                 onClick={() => { setStep("request"); setPin(""); setError(""); }}
-                style={{ background: "none", border: "none", color: "#E8920F", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                style={{ background: "none", border: "none", color: "#00863F", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
               >
                 Use a different number
               </button>

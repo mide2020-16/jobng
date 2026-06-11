@@ -64,8 +64,8 @@ export default function Footer() {
       <style>{`
         .jj-footer {
           background:
-            radial-gradient(ellipse 80% 80% at 80% 0%, #FFE7A8 0%, transparent 55%),
-            linear-gradient(200deg, #FFD166 0%, #F5A623 55%, #E8920F 100%);
+            radial-gradient(ellipse 80% 80% at 80% 0%, #CDEBB0 0%, transparent 55%),
+            linear-gradient(200deg, #8DC63F 0%, #00A651 55%, #00863F 100%);
           color: rgba(10,15,28,0.7);
         }
         .jj-footer__main { padding: 4rem 0 3rem; }
@@ -79,7 +79,7 @@ export default function Footer() {
           font-size: 0.875rem; line-height: 1.7; max-width: 300px;
           margin: 1.25rem 0 0; color: rgba(10,15,28,0.65);
         }
-        .jj-footer__tagline strong { color: #78350F; font-weight: 800; }
+        .jj-footer__tagline strong { color: #055A2B; font-weight: 800; }
         .jj-footer__heading {
           font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
           letter-spacing: 0.12em; color: #0A0F1C;
@@ -103,7 +103,7 @@ export default function Footer() {
           background: rgba(10,15,28,0.08); color: rgba(10,15,28,0.6);
           text-decoration: none; transition: background 0.2s, color 0.2s;
         }
-        .jj-footer__social:hover { background: #0A0F1C; color: #FFD166; }
+        .jj-footer__social:hover { background: #0A0F1C; color: #8DC63F; }
       `}</style>
     </footer>
   );

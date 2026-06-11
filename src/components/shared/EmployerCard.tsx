@@ -22,13 +22,13 @@ export default function EmployerCard({ employer }: { employer: Employer }) {
           <div>
             <Link
               href={`/employers/${employer.id}`}
-              className="font-semibold text-gray-900 hover:text-amber-600 transition-colors"
+              className="font-semibold text-gray-900 hover:text-green-600 transition-colors"
             >
               {employer.name}
             </Link>
             <p className="text-sm text-gray-500">{employer.industry}</p>
           </div>
-          <span className="text-xs bg-amber-50 text-amber-600 font-semibold px-2.5 py-1 rounded-full">
+          <span className="text-xs bg-green-50 text-green-600 font-semibold px-2.5 py-1 rounded-full">
             {employer.openJobs} Open {employer.openJobs === 1 ? "Job" : "Jobs"}
           </span>
         </div>
@@ -44,7 +44,7 @@ export default function EmployerCard({ employer }: { employer: Employer }) {
       </div>
       <Link
         href={`/employers/${employer.id}`}
-        className="shrink-0 text-xs bg-amber-50 hover:bg-amber-600 hover:text-white text-amber-600 font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+        className="shrink-0 text-xs bg-green-50 hover:bg-green-600 hover:text-white text-green-600 font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
       >
         <FiExternalLink size={12} />
         View

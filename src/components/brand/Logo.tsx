@@ -40,11 +40,11 @@ function LogoMark({ size, animated = true }: { size: number; animated?: boolean 
           d="M22 10L30 20H25.5V32H18.5V20H14L22 10Z"
           fill={`url(#${gradId})`}
         />
-        <circle className="jj-logo-mark__dot" cx="22" cy="36" r="2.5" fill="#F5A623" />
+        <circle className="jj-logo-mark__dot" cx="22" cy="36" r="2.5" fill="#00A651" />
         <defs>
           <linearGradient id={gradId} x1="14" y1="10" x2="30" y2="32" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#FFD166" />
-            <stop offset="1" stopColor="#F5A623" />
+            <stop stopColor="#8DC63F" />
+            <stop offset="1" stopColor="#00A651" />
           </linearGradient>
         </defs>
       </svg>
@@ -62,7 +62,7 @@ export default function Logo({
 }: LogoProps) {
   const s = sizes[size];
   const textColor = variant === "light" ? "#FFFFFF" : "#0A0F1C";
-  const ngColor = "#F5A623";
+  const ngColor = "#00A651";
 
   const content = (
     <span

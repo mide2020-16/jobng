@@ -20,10 +20,10 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-gray-900 to-amber-950 py-14">
+      <div className="bg-gradient-to-r from-gray-900 to-green-950 py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">News & Articles</h1>
-          <p className="text-amber-200">Career advice, hiring tips, and industry insights</p>
+          <p className="text-green-200">Career advice, hiring tips, and industry insights</p>
         </div>
       </div>
 
@@ -37,8 +37,8 @@ export default function BlogPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`text-sm px-4 py-2 rounded-full font-medium transition-colors ${
                   activeCategory === cat
-                    ? "bg-amber-600 text-white"
-                    : "bg-white border border-gray-200 text-gray-600 hover:border-amber-300 hover:text-amber-600"
+                    ? "bg-green-600 text-white"
+                    : "bg-white border border-gray-200 text-gray-600 hover:border-green-300 hover:text-green-600"
                 }`}
               >
                 {cat}
@@ -46,7 +46,7 @@ export default function BlogPage() {
             ))}
           </div>
           <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2.5 w-full sm:w-auto sm:min-w-[220px]">
-            <FiSearch className="text-amber-500 shrink-0" size={15} />
+            <FiSearch className="text-green-500 shrink-0" size={15} />
             <input
               type="text"
               placeholder="Search articles..."

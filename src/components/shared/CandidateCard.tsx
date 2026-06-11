@@ -5,7 +5,7 @@ import { Candidate } from "@/types";
 
 const availabilityColors: Record<string, string> = {
   "Available": "bg-green-100 text-green-700",
-  "Open to Offers": "bg-amber-100 text-amber-700",
+  "Open to Offers": "bg-green-100 text-green-700",
   "Not Available": "bg-gray-100 text-gray-600",
 };
 
@@ -19,7 +19,7 @@ export default function CandidateCard({ candidate, variant = "grid" }: Candidate
     return (
       <div className="job-card bg-white rounded-2xl border border-gray-100 p-5 flex items-start gap-4 shadow-sm">
         <Link href={`/candidates/${candidate.id}`} className="shrink-0">
-          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-amber-100">
+          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-green-100">
             <Image
               src={candidate.avatar}
               alt={candidate.name}
@@ -34,11 +34,11 @@ export default function CandidateCard({ candidate, variant = "grid" }: Candidate
             <div>
               <Link
                 href={`/candidates/${candidate.id}`}
-                className="font-semibold text-gray-900 hover:text-amber-600 transition-colors"
+                className="font-semibold text-gray-900 hover:text-green-600 transition-colors"
               >
                 {candidate.name}
               </Link>
-              <p className="text-sm text-amber-600 font-medium">{candidate.title}</p>
+              <p className="text-sm text-green-600 font-medium">{candidate.title}</p>
             </div>
             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${availabilityColors[candidate.availability] ?? "bg-gray-100 text-gray-600"}`}>
               {candidate.availability}
@@ -60,12 +60,12 @@ export default function CandidateCard({ candidate, variant = "grid" }: Candidate
           </div>
         </div>
         <div className="flex flex-col items-end gap-3 shrink-0">
-          <button className="text-gray-300 hover:text-amber-600 transition-colors p-1">
+          <button className="text-gray-300 hover:text-green-600 transition-colors p-1">
             <FiBookmark size={18} />
           </button>
           <Link
             href={`/candidates/${candidate.id}`}
-            className="text-xs bg-amber-50 hover:bg-amber-600 hover:text-white text-amber-600 font-semibold px-3 py-1.5 rounded-lg transition-colors"
+            className="text-xs bg-green-50 hover:bg-green-600 hover:text-white text-green-600 font-semibold px-3 py-1.5 rounded-lg transition-colors"
           >
             View Profile
           </Link>
@@ -77,7 +77,7 @@ export default function CandidateCard({ candidate, variant = "grid" }: Candidate
   return (
     <div className="job-card bg-white rounded-2xl border border-gray-100 p-5 flex flex-col items-center text-center shadow-sm">
       <div className="relative mb-3">
-        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-100">
+        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-green-100">
           <Image
             src={candidate.avatar}
             alt={candidate.name}
@@ -92,11 +92,11 @@ export default function CandidateCard({ candidate, variant = "grid" }: Candidate
       </div>
       <Link
         href={`/candidates/${candidate.id}`}
-        className="font-semibold text-gray-900 hover:text-amber-600 transition-colors text-sm"
+        className="font-semibold text-gray-900 hover:text-green-600 transition-colors text-sm"
       >
         {candidate.name}
       </Link>
-      <p className="text-xs text-amber-600 font-medium mt-0.5">{candidate.title}</p>
+      <p className="text-xs text-green-600 font-medium mt-0.5">{candidate.title}</p>
       <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
         <FiMapPin size={10} /> {candidate.location}
       </p>
@@ -109,7 +109,7 @@ export default function CandidateCard({ candidate, variant = "grid" }: Candidate
       </div>
       <Link
         href={`/candidates/${candidate.id}`}
-        className="mt-4 w-full text-xs bg-amber-50 hover:bg-amber-600 hover:text-white text-amber-600 font-semibold py-2 rounded-lg transition-colors"
+        className="mt-4 w-full text-xs bg-green-50 hover:bg-green-600 hover:text-white text-green-600 font-semibold py-2 rounded-lg transition-colors"
       >
         View Profile
       </Link>

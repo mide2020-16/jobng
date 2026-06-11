@@ -22,7 +22,7 @@ export default function SectionHeader({ subtitle, title, description, center = t
           style={{
             display: "inline-block", fontSize: 12, fontWeight: 700,
             textTransform: "uppercase", letterSpacing: "0.1em",
-            color: "#E8920F", marginBottom: 8,
+            color: "#00863F", marginBottom: 8,
           }}
         >
           {subtitle}

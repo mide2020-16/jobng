@@ -4,7 +4,7 @@ import { FiBriefcase, FiUsers, FiFileText, FiHome } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 const stats = [
-  { icon: FiBriefcase, value: 97216, label: "Jobs Posted",      bg: "#FEF3C7", color: "#E8920F" },
+  { icon: FiBriefcase, value: 97216, label: "Jobs Posted",      bg: "#E6F6E6", color: "#00863F" },
   { icon: FiUsers,     value: 4889,  label: "Active Members",   bg: "#f0fdf4", color: "#16a34a" },
   { icon: FiFileText,  value: 5500,  label: "Resumes Filed",    bg: "#faf5ff", color: "#7c3aed" },
   { icon: FiHome,      value: 6088,  label: "Companies",        bg: "#fff7ed", color: "#ea580c" },

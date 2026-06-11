@@ -14,14 +14,14 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 const palette = [
-  { bg: "#FEF3C7", color: "#B45309", hover: "#E8920F" },
+  { bg: "#E6F6E6", color: "#00692F", hover: "#00863F" },
   { bg: "#f0fdf4", color: "#15803d", hover: "#16a34a" },
   { bg: "#fff7ed", color: "#c2410c", hover: "#ea580c" },
   { bg: "#faf5ff", color: "#6d28d9", hover: "#7c3aed" },
   { bg: "#fdf2f8", color: "#be185d", hover: "#ec4899" },
   { bg: "#fef2f2", color: "#b91c1c", hover: "#ef4444" },
   { bg: "#ecfdf5", color: "#065f46", hover: "#059669" },
-  { bg: "#FFFBEB", color: "#92400E", hover: "#F5A623" },
+  { bg: "#F1FAEC", color: "#055A2B", hover: "#00A651" },
   { bg: "#fffbeb", color: "#92400e", hover: "#f59e0b" },
 ];
 
@@ -85,7 +85,7 @@ export default function CategorySection() {
           <Link
             href="/jobs"
             style={{
-              background: "linear-gradient(135deg, #E8920F 0%, #F5A623 100%)", borderRadius: 16, padding: "24px 16px",
+              background: "linear-gradient(135deg, #00863F 0%, #00A651 100%)", borderRadius: 16, padding: "24px 16px",
               display: "flex", flexDirection: "column", alignItems: "center",
               textAlign: "center", textDecoration: "none",
               transition: "background 0.2s",

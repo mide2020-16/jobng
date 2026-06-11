@@ -37,7 +37,7 @@ function StatItem({ value, suffix, label }: (typeof stats)[0]) {
       <div style={{ fontSize: "clamp(2.5rem,5vw,3.5rem)", fontWeight: 900, color: "#fff", lineHeight: 1, marginBottom: 8 }}>
         {count}{suffix}
       </div>
-      <p style={{ color: "rgba(255,209,102,0.9)", fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+      <p style={{ color: "rgba(141,198,63,0.9)", fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>
         {label}
       </p>
     </div>
@@ -46,7 +46,7 @@ function StatItem({ value, suffix, label }: (typeof stats)[0]) {
 
 export default function PlatformStats() {
   return (
-    <section style={{ padding: "80px 0", background: "linear-gradient(135deg, #0A0F1C 0%, #78350F 55%, #B45309 100%)" }}>
+    <section style={{ padding: "80px 0", background: "linear-gradient(135deg, #0A0F1C 0%, #055A2B 55%, #00692F 100%)" }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 1.5rem" }}>
         <div className="pstats-grid" style={{ display: "grid", gap: 0 }}>
           {stats.map((s) => <StatItem key={s.label} {...s} />)}

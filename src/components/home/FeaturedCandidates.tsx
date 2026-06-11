@@ -11,7 +11,7 @@ import { candidates } from "@/data/candidates";
 
 const availBadge: Record<string, { bg: string; color: string }> = {
   "Available":      { bg: "#f0fdf4", color: "#16a34a" },
-  "Open to Offers": { bg: "#FEF3C7", color: "#E8920F" },
+  "Open to Offers": { bg: "#E6F6E6", color: "#00863F" },
 };
 
 export default function FeaturedCandidates() {
@@ -27,7 +27,7 @@ export default function FeaturedCandidates() {
           />
           <Link
             href="/candidates"
-            style={{ fontSize: 13, fontWeight: 600, color: "#E8920F", textDecoration: "none", border: "1.5px solid #FCD34D", padding: "8px 18px", borderRadius: 8, whiteSpace: "nowrap", marginBottom: 40 }}
+            style={{ fontSize: 13, fontWeight: 600, color: "#00863F", textDecoration: "none", border: "1.5px solid #A6D86F", padding: "8px 18px", borderRadius: 8, whiteSpace: "nowrap", marginBottom: 40 }}
           >
             Browse All Candidates →
           </Link>
@@ -54,7 +54,7 @@ export default function FeaturedCandidates() {
                   }}
                 >
                   <div style={{ position: "relative", marginBottom: 12 }}>
-                    <div style={{ width: 68, height: 68, borderRadius: "50%", overflow: "hidden", border: "2px solid #FDE68A" }}>
+                    <div style={{ width: 68, height: 68, borderRadius: "50%", overflow: "hidden", border: "2px solid #BDE5A8" }}>
                       <Image src={c.avatar} alt={c.name} width={68} height={68} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     </div>
                     <span style={{ position: "absolute", bottom: -2, right: -2, background: ab.bg, color: ab.color, fontSize: 11, fontWeight: 700, padding: "1px 5px", borderRadius: 6, border: "2px solid #fff" }}>
@@ -64,7 +64,7 @@ export default function FeaturedCandidates() {
                   <Link href={`/candidates/${c.id}`} style={{ fontWeight: 700, fontSize: 14, color: "#111827", textDecoration: "none" }}>
                     {c.name}
                   </Link>
-                  <p style={{ fontSize: 12, color: "#E8920F", fontWeight: 500, marginTop: 3 }}>{c.title}</p>
+                  <p style={{ fontSize: 12, color: "#00863F", fontWeight: 500, marginTop: 3 }}>{c.title}</p>
                   <p style={{ fontSize: 12, color: "#9ca3af", marginTop: 4, display: "flex", alignItems: "center", gap: 3, justifyContent: "center" }}>
                     <FiMapPin size={10} /> {c.location}
                   </p>
@@ -73,7 +73,7 @@ export default function FeaturedCandidates() {
                       <span key={s} style={{ fontSize: 11, background: "#f3f4f6", color: "#374151", padding: "2px 8px", borderRadius: 6 }}>{s}</span>
                     ))}
                   </div>
-                  <Link href={`/candidates/${c.id}`} style={{ marginTop: 14, width: "100%", background: "#FEF3C7", color: "#E8920F", fontWeight: 600, fontSize: 12, padding: "8px 0", borderRadius: 8, textDecoration: "none", display: "block", textAlign: "center" }}>
+                  <Link href={`/candidates/${c.id}`} style={{ marginTop: 14, width: "100%", background: "#E6F6E6", color: "#00863F", fontWeight: 600, fontSize: 12, padding: "8px 0", borderRadius: 8, textDecoration: "none", display: "block", textAlign: "center" }}>
                     View Profile
                   </Link>
                 </div>

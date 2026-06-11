@@ -22,7 +22,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       {/* Cover */}
-      <div className="relative h-48 sm:h-64 bg-gradient-to-r from-amber-800 to-amber-950 overflow-hidden">
+      <div className="relative h-48 sm:h-64 bg-gradient-to-r from-green-800 to-green-950 overflow-hidden">
         <Image src={employer.coverImage} alt={employer.name} fill className="object-cover opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
       </div>
@@ -43,7 +43,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
             </div>
           </div>
           <div className="flex items-center gap-2 sm:pb-1">
-            <span className="bg-amber-50 text-amber-600 text-sm font-bold px-4 py-2 rounded-xl">
+            <span className="bg-green-50 text-green-600 text-sm font-bold px-4 py-2 rounded-xl">
               {employer.openJobs} Open Jobs
             </span>
           </div>
@@ -51,7 +51,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link href="/employers" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-amber-600 mb-8 transition-colors">
+        <Link href="/employers" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-green-600 mb-8 transition-colors">
           <FiArrowLeft size={13} /> Back to Employers
         </Link>
 
@@ -66,7 +66,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
             {/* Open Jobs */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Open Positions <span className="text-amber-600 ml-1">({employerJobs.length})</span>
+                Open Positions <span className="text-green-600 ml-1">({employerJobs.length})</span>
               </h2>
               {employerJobs.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center text-gray-500 shadow-sm">
@@ -78,7 +78,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
                     <Link
                       key={job.id}
                       href={`/jobs/${job.id}`}
-                      className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:border-amber-200 transition-colors"
+                      className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:border-green-200 transition-colors"
                     >
                       <p className="font-semibold text-gray-900">{job.title}</p>
                       <p className="text-sm text-gray-500 mt-1">{job.location} · {job.type}</p>
@@ -95,19 +95,19 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
               <h3 className="font-bold text-gray-900 mb-4">Company Info</h3>
               <div className="space-y-3 text-sm">
                 <div className="flex items-center gap-3 text-gray-600">
-                  <FiGlobe className="text-amber-500 shrink-0" size={15} />
-                  <a href={employer.website} className="hover:text-amber-600 truncate transition-colors">{employer.website}</a>
+                  <FiGlobe className="text-green-500 shrink-0" size={15} />
+                  <a href={employer.website} className="hover:text-green-600 truncate transition-colors">{employer.website}</a>
                 </div>
                 <div className="flex items-center gap-3 text-gray-600">
-                  <FiPhone className="text-amber-500 shrink-0" size={15} />
+                  <FiPhone className="text-green-500 shrink-0" size={15} />
                   <span>{employer.phone}</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-600">
-                  <FiMail className="text-amber-500 shrink-0" size={15} />
-                  <a href={`mailto:${employer.email}`} className="hover:text-amber-600 truncate transition-colors">{employer.email}</a>
+                  <FiMail className="text-green-500 shrink-0" size={15} />
+                  <a href={`mailto:${employer.email}`} className="hover:text-green-600 truncate transition-colors">{employer.email}</a>
                 </div>
                 <div className="flex items-center gap-3 text-gray-600">
-                  <FiMapPin className="text-amber-500 shrink-0" size={15} />
+                  <FiMapPin className="text-green-500 shrink-0" size={15} />
                   <span>{employer.location}</span>
                 </div>
               </div>
@@ -122,7 +122,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
                         <a
                           key={platform}
                           href={url}
-                          className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-amber-600 hover:text-white text-gray-600 rounded-lg transition-colors"
+                          className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-green-600 hover:text-white text-gray-600 rounded-lg transition-colors"
                         >
                           <Icon size={14} />
                         </a>
@@ -135,7 +135,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
 
             <Link
               href="/post-job"
-              className="block w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl text-center transition-colors text-sm"
+              className="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl text-center transition-colors text-sm"
             >
               Post a Job Like This
             </Link>

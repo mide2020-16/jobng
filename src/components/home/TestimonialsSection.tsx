@@ -43,7 +43,7 @@ export default function TestimonialsSection() {
                     </svg>
                   ))}
                 </div>
-                <h4 style={{ fontWeight: 700, color: "#E8920F", marginBottom: 8, fontSize: 15 }}>{t.title}</h4>
+                <h4 style={{ fontWeight: 700, color: "#00863F", marginBottom: 8, fontSize: 15 }}>{t.title}</h4>
                 <p style={{ fontSize: 14, color: "#4b5563", lineHeight: 1.7, flex: 1, marginBottom: 20 }}>{t.content}</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, paddingTop: 16, borderTop: "1px solid #e5e7eb" }}>
                   <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", flexShrink: 0 }}>

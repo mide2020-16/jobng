@@ -25,7 +25,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <Link href="/blog" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-4 transition-colors">
               <FiArrowLeft size={13} /> Back to Blog
             </Link>
-            <span className="inline-block bg-amber-600 text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
+            <span className="inline-block bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
               {post.category}
             </span>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
@@ -60,7 +60,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="flex flex-wrap items-center gap-2">
             <FiTag className="text-gray-400" size={15} />
             {post.tags.map((tag) => (
-              <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg font-medium hover:bg-amber-50 hover:text-amber-600 transition-colors cursor-pointer">
+              <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg font-medium hover:bg-green-50 hover:text-green-600 transition-colors cursor-pointer">
                 {tag}
               </span>
             ))}
@@ -68,14 +68,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Author Box */}
-        <div className="mt-8 bg-amber-50 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-amber-200">
+        <div className="mt-8 bg-green-50 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-green-200">
             <Image src={post.authorAvatar} alt={post.author} width={64} height={64} className="w-full h-full object-cover" />
           </div>
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <FiUser className="text-amber-600" size={14} />
-              <span className="text-xs text-amber-600 font-semibold uppercase tracking-wide">Written by</span>
+              <FiUser className="text-green-600" size={14} />
+              <span className="text-xs text-green-600 font-semibold uppercase tracking-wide">Written by</span>
             </div>
             <h4 className="font-bold text-gray-900">{post.author}</h4>
             <p className="text-sm text-gray-500 mt-1">Career writer and industry expert sharing insights to help professionals grow in their careers.</p>

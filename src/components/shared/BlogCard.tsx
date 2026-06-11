@@ -14,7 +14,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
             fill
             className="object-cover hover:scale-105 transition-transform duration-500"
           />
-          <span className="absolute top-3 left-3 bg-amber-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+          <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
             {post.category}
           </span>
         </div>
@@ -33,7 +33,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
         </div>
         <Link
           href={`/blog/${post.slug}`}
-          className="font-semibold text-gray-900 hover:text-amber-600 transition-colors leading-snug line-clamp-2 mb-2"
+          className="font-semibold text-gray-900 hover:text-green-600 transition-colors leading-snug line-clamp-2 mb-2"
         >
           {post.title}
         </Link>
@@ -53,7 +53,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
           </div>
           <Link
             href={`/blog/${post.slug}`}
-            className="text-xs text-amber-600 hover:text-amber-800 font-semibold transition-colors"
+            className="text-xs text-green-600 hover:text-green-800 font-semibold transition-colors"
           >
             Read More →
           </Link>

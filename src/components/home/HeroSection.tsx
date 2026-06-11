@@ -103,8 +103,8 @@ export default function HeroSection() {
       <style>{`
         .jj-hero {
           background:
-            radial-gradient(ellipse 90% 70% at 50% -10%, #FFE7A8 0%, transparent 60%),
-            linear-gradient(160deg, #FFD166 0%, #F5A623 52%, #E8920F 100%);
+            radial-gradient(ellipse 90% 70% at 50% -10%, #CDEBB0 0%, transparent 60%),
+            linear-gradient(160deg, #8DC63F 0%, #00A651 52%, #00863F 100%);
           min-height: 92vh;
           display: flex;
           flex-direction: column;
@@ -127,7 +127,7 @@ export default function HeroSection() {
         }
         .jj-hero__orb--gold {
           top: 10%; right: 5%; width: 420px; height: 420px;
-          background: rgba(255, 248, 225, 0.55);
+          background: rgba(205, 235, 176, 0.55);
         }
         .jj-hero__orb--teal {
           bottom: 20%; left: 0; width: 360px; height: 360px;
@@ -166,7 +166,7 @@ export default function HeroSection() {
           font-size: 1.0625rem; color: rgba(10,15,28,0.72);
           max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.65;
         }
-        .jj-hero__sub strong { color: #78350F; font-weight: 800; }
+        .jj-hero__sub strong { color: #055A2B; font-weight: 800; }
         .jj-hero__search {
           display: flex; align-items: center; gap: 10px;
           background: #fff;
@@ -194,7 +194,7 @@ export default function HeroSection() {
         }
         .jj-hero__tag:hover {
           background: #0A0F1C; border-color: #0A0F1C;
-          color: #FFD166;
+          color: #8DC63F;
         }
         .jj-hero__stats {
           display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
@@ -204,7 +204,7 @@ export default function HeroSection() {
         .jj-hero__stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .jj-hero__stat-value {
           font-family: var(--font-display), sans-serif;
-          font-size: 1.375rem; font-weight: 800; color: #78350F;
+          font-size: 1.375rem; font-weight: 800; color: #055A2B;
         }
         .jj-hero__stat-label { font-size: 0.75rem; color: rgba(10,15,28,0.55); font-weight: 500; }
         .jj-hero__wave { position: absolute; bottom: 0; left: 0; right: 0; line-height: 0; }

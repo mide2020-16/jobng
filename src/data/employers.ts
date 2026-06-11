@@ -4,7 +4,7 @@ export const employers: Employer[] = [
   {
     id: "1",
     name: "Creative Studio",
-    logo: "https://ui-avatars.com/api/?name=Creative+Studio&background=F5A623&color=fff&size=100",
+    logo: "https://ui-avatars.com/api/?name=Creative+Studio&background=00A651&color=fff&size=100",
     coverImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format",
     industry: "Design & Creative",
     location: "New York, NY",
@@ -43,7 +43,7 @@ export const employers: Employer[] = [
   {
     id: "3",
     name: "Global Accounting Inc",
-    logo: "https://ui-avatars.com/api/?name=Global+Accounting&background=F5A623&color=fff&size=100",
+    logo: "https://ui-avatars.com/api/?name=Global+Accounting&background=00A651&color=fff&size=100",
     coverImage: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format",
     industry: "Finance & Accounting",
     location: "Los Angeles, CA",
@@ -100,7 +100,7 @@ export const employers: Employer[] = [
   {
     id: "6",
     name: "TechVision Labs",
-    logo: "https://ui-avatars.com/api/?name=TechVision&background=F5A623&color=fff&size=100",
+    logo: "https://ui-avatars.com/api/?name=TechVision&background=00A651&color=fff&size=100",
     coverImage: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&auto=format",
     industry: "Technology",
     location: "Remote",
@@ -120,7 +120,7 @@ export const employers: Employer[] = [
   {
     id: "7",
     name: "PeopleFirst HR",
-    logo: "https://ui-avatars.com/api/?name=PeopleFirst&background=F5A623&color=fff&size=100",
+    logo: "https://ui-avatars.com/api/?name=PeopleFirst&background=00A651&color=fff&size=100",
     coverImage: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&auto=format",
     industry: "Human Resources",
     location: "Washington, DC",

@@ -27,10 +27,10 @@ export default function CandidatesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-gray-900 to-amber-950 py-14">
+      <div className="bg-gradient-to-r from-gray-900 to-green-950 py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Browse Candidates</h1>
-          <p className="text-amber-200">Discover talented professionals ready for their next opportunity</p>
+          <p className="text-green-200">Discover talented professionals ready for their next opportunity</p>
         </div>
       </div>
 
@@ -39,11 +39,11 @@ export default function CandidatesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex flex-col sm:flex-row gap-2">
             <div className="flex items-center gap-2 flex-1 border border-gray-200 rounded-xl px-3 py-2.5">
-              <FiSearch className="text-amber-500 shrink-0" size={16} />
+              <FiSearch className="text-green-500 shrink-0" size={16} />
               <input type="text" placeholder="Name, title, skills..." value={keyword} onChange={(e) => setKeyword(e.target.value)} className="w-full text-sm outline-none text-gray-700 placeholder-gray-400" />
             </div>
             <div className="flex items-center gap-2 border border-gray-200 rounded-xl px-3 py-2.5 min-w-[150px]">
-              <FiMapPin className="text-amber-500 shrink-0" size={14} />
+              <FiMapPin className="text-green-500 shrink-0" size={14} />
               <select value={location} onChange={(e) => setLocation(e.target.value)} className="w-full text-sm outline-none text-gray-700 bg-transparent">
                 {locations.map((l) => <option key={l}>{l}</option>)}
               </select>
@@ -66,8 +66,8 @@ export default function CandidatesPage() {
         <div className="flex items-center justify-between mb-5">
           <p className="text-sm text-gray-500">Showing <span className="font-semibold text-gray-900">{filtered.length}</span> candidates</p>
           <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-1">
-            <button onClick={() => setViewMode("list")} className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-amber-600 text-white" : "text-gray-400 hover:text-gray-600"}`}><FiList size={14} /></button>
-            <button onClick={() => setViewMode("grid")} className={`p-1.5 rounded-md transition-colors ${viewMode === "grid" ? "bg-amber-600 text-white" : "text-gray-400 hover:text-gray-600"}`}><FiSquare size={14} /></button>
+            <button onClick={() => setViewMode("list")} className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-green-600 text-white" : "text-gray-400 hover:text-gray-600"}`}><FiList size={14} /></button>
+            <button onClick={() => setViewMode("grid")} className={`p-1.5 rounded-md transition-colors ${viewMode === "grid" ? "bg-green-600 text-white" : "text-gray-400 hover:text-gray-600"}`}><FiSquare size={14} /></button>
           </div>
         </div>
 

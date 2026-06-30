@@ -1,12 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FiUsers, FiBriefcase, FiAward, FiGlobe, FiArrowRight } from "react-icons/fi";
+import { FiUsers, FiBriefcase, FiAward, FiSmartphone, FiArrowRight } from "react-icons/fi";
 
 const values = [
-  { icon: FiUsers, title: "People First", desc: "We believe in empowering every person to find meaningful work and build a fulfilling career." },
-  { icon: FiBriefcase, title: "Quality Matches", desc: "We use smart matching to connect the right candidates with the right opportunities — every time." },
-  { icon: FiAward, title: "Trust & Integrity", desc: "We operate with full transparency and hold ourselves to the highest standards of honesty." },
-  { icon: FiGlobe, title: "Global Reach", desc: "With listings from companies worldwide, we connect talent without borders." },
+  { icon: FiUsers, title: "People First", desc: "We believe every Nigerian deserves access to quality employment — regardless of their location or internet access." },
+  { icon: FiBriefcase, title: "Quality Matches", desc: "We connect the right candidates with the right Nigerian employers, bridging the gap between talent and opportunity." },
+  { icon: FiAward, title: "Trust & Integrity", desc: "We operate with full transparency and hold ourselves to the highest standards of honesty with both job seekers and employers." },
+  { icon: FiSmartphone, title: "Accessible Tech", desc: "Via *7098# USSD, anyone with a basic phone and an MTN line can access our platform — no smartphone needed." },
+];
+
+const team = [
+  { name: "Adewale Okafor", role: "Chief Executive Officer", initials: "AO", color: "#00A651" },
+  { name: "Chidinma Eze", role: "Head of Product", initials: "CE", color: "#0BAB64" },
+  { name: "Tunde Fashola", role: "Lead Engineer", initials: "TF", color: "#8DC63F" },
+  { name: "Amaka Nwosu", role: "Head of Partnerships", initials: "AN", color: "#00863F" },
 ];
 
 export default function AboutPage() {
@@ -19,11 +26,11 @@ export default function AboutPage() {
             Our Story
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-5 leading-tight">
-            We&apos;re on a mission to connect <span className="text-green-400">great talent</span> with great companies
+            Nigeria&apos;s job platform built for <span className="text-green-400">every Nigerian</span>
           </h1>
           <p className="text-green-200 text-lg leading-relaxed">
-            JustJobNG was founded in 2018 with a simple belief: finding the right job shouldn&apos;t be hard. 
-            Today we serve millions of job seekers and thousands of employers worldwide.
+            JustJobNG was built with a simple belief: every Nigerian deserves a fair shot at quality employment — whether
+            they have a smartphone or not. We connect job seekers and employers across all 36 states via USSD, SMS, and the web.
           </p>
         </div>
       </section>
@@ -33,10 +40,10 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
             {[
-              { value: "15K+", label: "Active Jobs" },
-              { value: "4M+", label: "Job Seekers" },
-              { value: "8,000+", label: "Companies" },
-              { value: "180+", label: "Countries" },
+              { value: "5,000+", label: "Active Job Listings" },
+              { value: "120K+", label: "Registered Job Seekers" },
+              { value: "800+", label: "Nigerian Employers" },
+              { value: "36", label: "States Covered" },
             ].map(({ value, label }) => (
               <div key={label}>
                 <div className="text-3xl font-extrabold text-green-600 mb-1">{value}</div>
@@ -54,17 +61,17 @@ export default function AboutPage() {
             <div>
               <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-3 block">Who We Are</span>
               <h2 className="text-3xl font-bold text-gray-900 mb-5 leading-tight">
-                Building the world&apos;s most trusted job platform
+                Building Nigeria&apos;s most accessible employment platform
               </h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                JustJobNG started as a small team with a big dream: to make hiring human again. 
-                We were frustrated with impersonal job boards, endless applications into the void, 
-                and a process that felt broken for everyone involved.
+                JustJobNG was born out of a frustrating reality: millions of talented Nigerians
+                had no reliable way to discover quality job opportunities, and employers couldn&apos;t
+                reach them either — especially those without smartphones or data access.
               </p>
               <p className="text-gray-600 leading-relaxed mb-6">
-                So we built something better. A platform where job seekers can showcase their 
-                full potential and employers can discover talent that truly fits — not just on paper, 
-                but in terms of culture, values, and long-term potential.
+                So we built a platform that works for everyone. Via <strong>*7098#</strong>, any Nigerian
+                with an MTN line can subscribe, get job alerts by SMS, and apply — no smartphone, no data
+                bundle needed. Employers post vacancies that reach candidates across all 36 states.
               </p>
               <Link
                 href="/jobs"
@@ -113,14 +120,19 @@ export default function AboutPage() {
             <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-2 block">The People Behind JustJobNG</span>
             <h2 className="text-3xl font-bold text-gray-900">Meet Our Team</h2>
           </div>
-          <div className="max-w-md mx-auto text-center bg-gray-50 border border-dashed border-gray-200 rounded-2xl py-14 px-6">
-            <div className="w-14 h-14 bg-white rounded-2xl border border-gray-100 flex items-center justify-center mx-auto mb-4">
-              <FiUsers className="text-gray-400" size={24} />
-            </div>
-            <h3 className="font-bold text-gray-900 mb-1.5">Coming soon</h3>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              We&apos;re putting the finishing touches on our team profiles. Check back soon to meet the people behind JustJobNG.
-            </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            {team.map(({ name, role, initials, color }) => (
+              <div key={name} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center hover:shadow-md transition-shadow">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-xl font-extrabold mx-auto mb-4"
+                  style={{ background: color }}
+                >
+                  {initials}
+                </div>
+                <h3 className="font-bold text-gray-900 text-sm mb-1">{name}</h3>
+                <p className="text-xs text-gray-500">{role}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

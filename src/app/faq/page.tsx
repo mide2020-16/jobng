@@ -7,30 +7,76 @@ const faqs = [
   {
     category: "For Job Seekers",
     items: [
-      { q: "Is JustJobNG free to use for job seekers?", a: "Yes! Creating a profile and browsing jobs is completely free. We also offer a Professional plan with premium features like unlimited applications and featured profile placement." },
-      { q: "How do I apply for a job?", a: "Simply find a job you're interested in, click 'Apply Now', and follow the application process. You may need to create an account or log in before applying. Each employer may have their own specific requirements." },
-      { q: "Can I upload my resume?", a: "Absolutely. Once you create a candidate profile, you can upload your resume and fill out your profile information. Employers can then find you through our candidate search feature." },
-      { q: "How do job alerts work?", a: "You can set up job alerts based on keywords, location, and job type. We'll send you email notifications whenever new matching jobs are posted, so you never miss an opportunity." },
-      { q: "How do I contact an employer directly?", a: "Some job listings allow direct messaging with employers. You can also apply through the platform and include a personalized cover letter. Premium users get priority placement in employer searches." },
+      {
+        q: "Is JustJobNG free to use for job seekers?",
+        a: "Browsing all job listings is completely free. To unlock features like unlimited applications and SMS job alerts, subscribe via USSD for just ₦500/month. Simply dial *7098# on any MTN line to get started.",
+      },
+      {
+        q: "How do I subscribe to JustJobNG?",
+        a: "Dial *7098# on your MTN phone, follow the prompts to select a plan, and you will be subscribed instantly. No internet connection or bank card required — it is all done over USSD.",
+      },
+      {
+        q: "How do I log in to JustJobNG?",
+        a: "After subscribing via *7098#, you receive a unique 4-digit SMS PIN on your registered phone number. Enter that PIN on the login page along with your phone number to access your account. No email or password needed.",
+      },
+      {
+        q: "I forgot my PIN. How do I reset it?",
+        a: "Dial *7098# again and select 'Forgot PIN' from the menu. A new PIN will be sent to your registered phone number via SMS. Alternatively, visit the 'Forgot PIN' link on the login page and follow the steps.",
+      },
+      {
+        q: "How do job alerts work?",
+        a: "Once subscribed, you will receive SMS alerts whenever new jobs matching your selected categories are posted. You can manage your alert preferences by dialling *7098# and selecting 'Manage Alerts'.",
+      },
+      {
+        q: "Can I apply for a job without a smartphone?",
+        a: "Yes! JustJobNG is designed to work even on basic feature phones. You can browse job listings and get job details sent to you via SMS after subscribing through *7098#.",
+      },
     ],
   },
   {
     category: "For Employers",
     items: [
-      { q: "How do I post a job on JustJobNG?", a: "Click 'Post a Job' in the navigation bar, create an employer account, fill out the job details, and choose your listing package. Your job will be live within minutes after review." },
-      { q: "How long does a job listing stay active?", a: "Job listings are active for 30 days on the Starter plan and 60 days on the Pro plan. You can renew your listing at any time, and featured listings get extended visibility." },
-      { q: "Can I search for candidates?", a: "Yes! All paid employer plans include access to our candidate database. You can search by skills, location, experience level, and availability to find the perfect match for your open positions." },
-      { q: "What payment methods do you accept?", a: "We accept all major credit cards (Visa, Mastercard, American Express) and PayPal. All payments are processed securely through our payment provider." },
-      { q: "Can I edit or delete my job listings?", a: "Yes, you can edit or delete any of your job listings from your employer dashboard at any time. Changes are reflected on the site immediately." },
+      {
+        q: "How do I post a job on JustJobNG?",
+        a: "Click 'Post a Job' in the navigation bar, register an employer account, fill in the job details, and choose a listing package. Your vacancy will go live within minutes after a quick review.",
+      },
+      {
+        q: "How long does a job listing stay active?",
+        a: "Listings are active for 30 days on the Starter plan (₦15,000/month) and 60 days on the Pro plan (₦35,000/month). You can renew at any time from your employer dashboard.",
+      },
+      {
+        q: "Can I search for candidates?",
+        a: "Yes! All paid employer plans include access to our growing candidate database. You can filter by skills, location, experience level, and availability to find qualified Nigerian talent.",
+      },
+      {
+        q: "What payment methods do you accept for employer plans?",
+        a: "We accept bank transfers (NEFT/NIP), Flutterwave, and Paystack for employer subscriptions. Contact us at hello@justjobng.com to arrange payment.",
+      },
+      {
+        q: "Can I edit or delete my job listings?",
+        a: "Yes. From your employer dashboard you can edit, pause, or delete any listing at any time. Changes appear on the site immediately.",
+      },
     ],
   },
   {
     category: "Account & Privacy",
     items: [
-      { q: "How do I reset my password?", a: "Click 'Forgot Password' on the login page and enter your email address. We'll send you a password reset link within a few minutes. Check your spam folder if you don't see it." },
-      { q: "How is my personal data used?", a: "We take privacy seriously. Your data is used only to facilitate the job matching process and improve our services. We never sell your personal information to third parties. Read our Privacy Policy for full details." },
-      { q: "Can I delete my account?", a: "Yes, you can delete your account at any time from your account settings. This will permanently remove your profile and all associated data. Please note this action cannot be undone." },
-      { q: "Is my information visible to everyone?", a: "By default, your candidate profile is visible to registered employers. You can adjust your privacy settings to control who can see your profile and contact information at any time." },
+      {
+        q: "What data does JustJobNG collect?",
+        a: "We collect your phone number (used as your identity), selected job categories, and your subscription status. We never sell your personal information to third parties. Full details are in our Privacy Policy.",
+      },
+      {
+        q: "Is my phone number visible to employers?",
+        a: "Your phone number is only shared with an employer after you explicitly apply for their job. For applications, the employer receives only the details you include in your profile.",
+      },
+      {
+        q: "Can I cancel my USSD subscription?",
+        a: "Yes. Dial *7098# and select 'Cancel Subscription' at any time. You will retain access until the end of your current billing period. There are no cancellation fees.",
+      },
+      {
+        q: "How do I delete my account?",
+        a: "Send a deletion request to hello@justjobng.com from your registered contact. We will permanently remove your profile and all associated data within 5 business days.",
+      },
     ],
   },
 ];
@@ -79,7 +125,7 @@ export default function FAQPage() {
       <div className="bg-gradient-to-r from-gray-900 to-green-950 py-14 text-center">
         <div className="max-w-2xl mx-auto px-4">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">Frequently Asked Questions</h1>
-          <p className="text-green-200 mb-7">Find answers to common questions about JustJobNG.</p>
+          <p className="text-green-200 mb-7">Find answers to common questions about JustJobNG and the <strong className="text-white">*7098#</strong> subscription.</p>
           <div className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 max-w-md mx-auto shadow-lg">
             <FiSearch className="text-green-500 shrink-0" size={16} />
             <input
@@ -139,7 +185,9 @@ export default function FAQPage() {
         {/* Still have questions */}
         <div className="mt-14 bg-green-600 rounded-2xl p-8 text-center">
           <h3 className="text-xl font-bold text-white mb-2">Still have questions?</h3>
-          <p className="text-green-100 text-sm mb-5">Can&apos;t find what you&apos;re looking for? Our support team is here to help.</p>
+          <p className="text-green-100 text-sm mb-5">
+            Dial <strong className="text-white">*7098#</strong> for instant help, or contact our support team.
+          </p>
           <Link
             href="/contact"
             className="inline-block bg-white text-green-600 font-bold px-8 py-3 rounded-xl hover:bg-green-50 transition-colors text-sm"

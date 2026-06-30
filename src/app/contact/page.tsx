@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FiMapPin, FiSend, FiCheckCircle } from "react-icons/fi";
+import { FiMapPin, FiSend, FiCheckCircle, FiPhone, FiMail, FiClock } from "react-icons/fi";
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -27,14 +27,54 @@ export default function ContactPage() {
           {/* Contact Info */}
           <div className="space-y-5">
             <h2 className="text-xl font-bold text-gray-900 mb-6">Contact Information</h2>
-            <div className="bg-gray-50 border border-dashed border-gray-200 rounded-2xl py-12 px-6 text-center">
-              <div className="w-12 h-12 bg-white rounded-xl border border-gray-100 flex items-center justify-center mx-auto mb-4">
-                <FiMapPin className="text-gray-400" size={20} />
+            <div className="space-y-4">
+              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
+                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+                  <FiMapPin className="text-green-600" size={16} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Our Office</p>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    14 Admiralty Way, Lekki Phase 1,<br />Lagos, Nigeria
+                  </p>
+                </div>
               </div>
-              <h3 className="font-bold text-gray-900 mb-1.5">Coming soon</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">
-                Our office address, phone, and support details will be available here shortly. In the meantime, use the form to reach us.
-              </p>
+              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
+                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+                  <FiPhone className="text-green-600" size={16} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Phone / USSD</p>
+                  <p className="text-sm text-gray-500">
+                    +234 (0) 800 000 7098<br />
+                    <span className="font-semibold text-green-700">*7098#</span> (MTN USSD)
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
+                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+                  <FiMail className="text-green-600" size={16} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Email</p>
+                  <p className="text-sm text-gray-500">
+                    hello@justjobng.com<br />
+                    support@justjobng.com
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
+                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+                  <FiClock className="text-green-600" size={16} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Support Hours</p>
+                  <p className="text-sm text-gray-500">
+                    Mon – Fri: 8:00 AM – 6:00 PM (WAT)<br />
+                    Sat: 10:00 AM – 2:00 PM
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 

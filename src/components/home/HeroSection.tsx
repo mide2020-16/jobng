@@ -10,7 +10,12 @@ const fadeUp = (delay = 0) => ({
   show: { 
     opacity: 1, 
     y: 0, 
-    transition: { duration: 0.6, ease: [0.215, 0.610, 0.355, 1], delay } 
+    transition: { 
+      duration: 0.6, 
+      // Use a string for cubic-bezier to satisfy the TypeScript Easing type
+      ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number], 
+      delay 
+    } 
   },
 });
 

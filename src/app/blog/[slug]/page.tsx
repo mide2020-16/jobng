@@ -9,9 +9,19 @@ export function generateStaticParams() {
   return blogPosts.map((p) => ({ slug: p.slug }));
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getBlogPostBySlug(params.slug);
+// 1. Update the type definition to expect a Promise
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+// 2. Make the component async
+export default async function BlogPostPage({ params }: Props) {
+  // 3. Await the params before using the slug
+  const resolvedParams = await params;
+  const post = getBlogPostBySlug(resolvedParams.slug);
+  
   if (!post) notFound();
+  
   const related = blogPosts.filter((p) => p.category === post.category && p.slug !== post.slug).slice(0, 3);
 
   return (

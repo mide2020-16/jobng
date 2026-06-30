@@ -9,6 +9,11 @@ export function generateStaticParams() {
   return candidates.map((c) => ({ id: c.id }));
 }
 
+// 1. Define Props type to expect a Promise
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
 const socialIcons: Record<string, React.ElementType> = {
   linkedin: FiLinkedin, twitter: FiTwitter, github: FiGithub, instagram: FiInstagram,
   behance: FiGithub, dribbble: FiGithub,
@@ -20,8 +25,12 @@ const availabilityColors: Record<string, string> = {
   "Not Available": "bg-gray-100 text-gray-600",
 };
 
-export default function CandidateDetailPage({ params }: { params: { id: string } }) {
-  const candidate = getCandidateById(params.id);
+// 2. Make the component async
+export default async function CandidateDetailPage({ params }: Props) {
+  // 3. Await the params to resolve them
+  const { id } = await params;
+  const candidate = getCandidateById(id);
+  
   if (!candidate) notFound();
 
   return (
@@ -56,15 +65,13 @@ export default function CandidateDetailPage({ params }: { params: { id: string }
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main */}
+          {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Bio */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-3">About Me</h2>
               <p className="text-gray-600 leading-relaxed">{candidate.bio}</p>
             </div>
 
-            {/* Skills */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Skills</h2>
               <div className="flex flex-wrap gap-2">
@@ -76,7 +83,6 @@ export default function CandidateDetailPage({ params }: { params: { id: string }
               </div>
             </div>
 
-            {/* Education */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Education</h2>
               <div className="flex items-start gap-4">
@@ -90,7 +96,6 @@ export default function CandidateDetailPage({ params }: { params: { id: string }
               </div>
             </div>
 
-            {/* Quick Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {[
                 { icon: FiClock, label: "Experience", value: candidate.experience },
@@ -110,7 +115,6 @@ export default function CandidateDetailPage({ params }: { params: { id: string }
 
           {/* Sidebar */}
           <div className="space-y-5">
-            {/* Contact Card */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm sticky top-28">
               <h3 className="font-bold text-gray-900 mb-4">Contact Information</h3>
               <div className="space-y-3 mb-5">

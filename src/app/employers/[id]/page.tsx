@@ -10,14 +10,24 @@ export function generateStaticParams() {
   return employers.map((e) => ({ id: e.id }));
 }
 
+// 1. Update the type definition to expect a Promise
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
 const socialIcons: Record<string, React.ElementType> = {
   linkedin: FiLinkedin, twitter: FiTwitter, facebook: FiFacebook, instagram: FiInstagram, github: FiGithub,
 };
 
-export default function EmployerDetailPage({ params }: { params: { id: string } }) {
-  const employer = getEmployerById(params.id);
+// 2. Make the component async
+export default async function EmployerDetailPage({ params }: Props) {
+  // 3. Await the params before using them
+  const { id } = await params;
+  
+  const employer = getEmployerById(id);
   if (!employer) notFound();
-  const employerJobs = jobs.filter((j) => j.employerId === params.id);
+  
+  const employerJobs = jobs.filter((j) => j.employerId === id);
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">

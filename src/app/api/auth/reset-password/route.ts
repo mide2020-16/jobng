@@ -16,8 +16,8 @@ export async function POST(req: Request) {
     if (!/^234\d{10}$/.test(number)) {
       return NextResponse.json({ ok: false, error: "Enter a valid Nigerian phone number." }, { status: 400 });
     }
-    if (!/^\d{6}$/.test(pin)) {
-      return NextResponse.json({ ok: false, error: "Enter the 6-digit code sent to your phone." }, { status: 400 });
+    if (!/^\d{4}$/.test(pin)) {
+      return NextResponse.json({ ok: false, error: "PIN must be exactly 4 digits." }, { status: 400 });
     }
 
     const result = await resetPassword({ phone_number: number, pin: pin });
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: extractError(result.data) }, { status: result.status });
     }
 
-    return NextResponse.json({ ok: true, message: "PIN reset successfully. You can now sign in." });
+    return NextResponse.json({ ok: true, message: 'PIN reset successfully.' });
   } catch {
     return NextResponse.json({ ok: false, error: "Network error. Please try again." }, { status: 500 });
   }

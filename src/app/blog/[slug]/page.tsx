@@ -1,107 +1,154 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { FiArrowLeft, FiCalendar, FiClock, FiMessageSquare, FiUser, FiTag } from "react-icons/fi";
-import { getBlogPostBySlug, blogPosts } from "@/data/blog";
-import BlogCard from "@/components/shared/BlogCard";
+import { notFound } from 'next/navigation';
+import { blogPosts } from '@/data/blog';
+import Link from 'next/link';
+import Image from 'next/image';
+import { FiArrowLeft, FiClock, FiMessageSquare, FiCalendar, FiShare2, FiTwitter, FiFacebook, FiLinkedin } from 'react-icons/fi';
+import BlogCard from '@/components/shared/BlogCard';
 
-export function generateStaticParams() {
-  return blogPosts.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return blogPosts.map(p => ({ slug: p.slug }));
 }
 
-// 1. Update the type definition to expect a Promise
-type Props = {
-  params: Promise<{ slug: string }>;
-};
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = blogPosts.find(p => p.slug === slug);
+  return { 
+    title: post ? `${post.title} | JustJobNG Blog` : 'Blog | JustJobNG', 
+    description: post?.excerpt 
+  };
+}
 
-// 2. Make the component async
-export default async function BlogPostPage({ params }: Props) {
-  // 3. Await the params before using the slug
-  const resolvedParams = await params;
-  const post = getBlogPostBySlug(resolvedParams.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = blogPosts.find(p => p.slug === slug);
   
-  if (!post) notFound();
-  
-  const related = blogPosts.filter((p) => p.category === post.category && p.slug !== post.slug).slice(0, 3);
+  if (!post) {
+    notFound();
+  }
+
+  const relatedPosts = blogPosts.filter(p => p.id !== post.id && p.category === post.category).slice(0, 3);
+  if (relatedPosts.length < 3) {
+    relatedPosts.push(...blogPosts.filter(p => p.id !== post.id && !relatedPosts.find(r => r.id === p.id)).slice(0, 3 - relatedPosts.length));
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-[var(--surface)] pb-20 animate-fade-in-up">
       {/* Hero */}
-      <div className="relative h-64 sm:h-80 overflow-hidden">
-        <Image src={post.image} alt={post.title} fill className="object-cover" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20" />
-        <div className="absolute inset-0 flex flex-col justify-end">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-            <Link href="/blog" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-4 transition-colors">
-              <FiArrowLeft size={13} /> Back to Blog
-            </Link>
-            <span className="inline-block bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
+      <section className="bg-[var(--ink)] pt-[calc(var(--nav-height)+2rem)] pb-12 relative">
+        <div className="container-xl relative z-10">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-[var(--text-faint)] text-sm font-semibold no-underline mb-8 transition-colors hover:text-white">
+            <FiArrowLeft size={16} /> Back to articles
+          </Link>
+          
+          <div className="max-w-[800px]">
+            <span className="jj-pill bg-[var(--gold)] text-white border-none mb-4 inline-block">
               {post.category}
             </span>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
+            <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold text-white mb-6 -tracking-[0.02em] leading-[1.1]">
               {post.title}
             </h1>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Meta */}
-        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-8 pb-6 border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full overflow-hidden">
-              <Image src={post.authorAvatar} alt={post.author} width={32} height={32} className="w-full h-full object-cover" />
-            </div>
-            <span className="font-medium text-gray-700">{post.author}</span>
-          </div>
-          <span className="flex items-center gap-1"><FiCalendar size={13} /> {post.date}</span>
-          <span className="flex items-center gap-1"><FiClock size={13} /> {post.readTime}</span>
-          <span className="flex items-center gap-1"><FiMessageSquare size={13} /> {post.comments} Comments</span>
-        </div>
-
-        {/* Content */}
-        <div
-          className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-headings:font-bold prose-p:leading-relaxed prose-p:mb-4 prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-3"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-
-        {/* Tags */}
-        <div className="mt-10 pt-6 border-t border-gray-200">
-          <div className="flex flex-wrap items-center gap-2">
-            <FiTag className="text-gray-400" size={15} />
-            {post.tags.map((tag) => (
-              <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg font-medium hover:bg-green-50 hover:text-green-600 transition-colors cursor-pointer">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Author Box */}
-        <div className="mt-8 bg-green-50 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-green-200">
-            <Image src={post.authorAvatar} alt={post.author} width={64} height={64} className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <FiUser className="text-green-600" size={14} />
-              <span className="text-xs text-green-600 font-semibold uppercase tracking-wide">Written by</span>
-            </div>
-            <h4 className="font-bold text-gray-900">{post.author}</h4>
-            <p className="text-sm text-gray-500 mt-1">Career writer and industry expert sharing insights to help professionals grow in their careers.</p>
-          </div>
-        </div>
-
-        {/* Related Posts */}
-        {related.length > 0 && (
-          <div className="mt-14">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Articles</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {related.map((p) => <BlogCard key={p.id} post={p} />)}
+            
+            <div className="flex items-center gap-6 flex-wrap border-t border-[rgba(255,255,255,0.1)] pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden bg-[var(--surface-elevated)]">
+                  {post.authorAvatar ? (
+                    <Image src={post.authorAvatar} alt={post.author} width={40} height={40} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-xl font-extrabold text-[var(--ink)]">{post.author.charAt(0)}</div>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-white font-bold text-[15px]">{post.author}</span>
+                  <span className="text-[var(--text-faint)] text-[13px]">Author</span>
+                </div>
+              </div>
+              
+              <div className="flex gap-4 text-[var(--text-faint)] text-sm ml-auto">
+                <span className="flex items-center gap-1"><FiCalendar size={14} /> {post.date}</span>
+                <span className="flex items-center gap-1"><FiClock size={14} /> {post.readTime}</span>
+                <span className="flex items-center gap-1"><FiMessageSquare size={14} /> {post.comments}</span>
+              </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
+
+      <section className="container-xl mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-16 items-start">
+          
+          {/* Main Article */}
+          <article>
+            {post.image && (
+              <div className="relative w-full h-[400px] rounded-[var(--radius-md)] overflow-hidden mb-12 shadow-[var(--shadow-sm)]">
+                <Image src={post.image} alt={post.title} fill className="object-cover" priority />
+              </div>
+            )}
+            
+            <div 
+              className="job-description prose max-w-none text-base leading-relaxed text-[var(--text-muted)]
+                prose-p:mb-6 prose-p:last:mb-0
+                prose-headings:text-[var(--ink)] prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:mt-10 prose-headings:mb-4
+                prose-h2:text-2xl prose-h3:text-xl
+                prose-strong:text-[var(--ink)] prose-strong:font-bold
+                prose-ul:list-disc prose-ul:pl-5 prose-ul:my-4 prose-li:mb-2
+                prose-a:text-[var(--gold-hover)] prose-a:underline prose-a:underline-offset-2
+                prose-blockquote:border-l-4 prose-blockquote:border-[var(--gold)] prose-blockquote:pl-5 prose-blockquote:my-6 prose-blockquote:italic prose-blockquote:text-lg prose-blockquote:text-[var(--ink)]"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+            
+            {/* Tags */}
+            <div className="mt-16 pt-8 border-t border-[var(--border)] flex items-center gap-4 flex-wrap">
+              <span className="font-bold text-[var(--ink)]">Tags:</span>
+              <div className="flex gap-2 flex-wrap">
+                {["Career", "Tips", "Remote Work"].map(tag => (
+                  <span key={tag} className="jj-pill bg-[var(--surface-elevated)] text-[var(--text-muted)] border-[var(--border)] border border-solid">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </article>
+
+          {/* Sidebar */}
+          <aside className="flex flex-col gap-8 sticky top-[calc(var(--nav-height)+2rem)]">
+            
+            {/* Share */}
+            <div className="jj-card p-6">
+              <h3 className="text-base font-extrabold text-[var(--ink)] mb-4 flex items-center gap-2">
+                <FiShare2 size={16} /> Share this article
+              </h3>
+              <div className="flex gap-2">
+                <button className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiTwitter size={18} /></button>
+                <button className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiFacebook size={18} /></button>
+                <button className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiLinkedin size={18} /></button>
+              </div>
+            </div>
+
+            {/* Related */}
+            <div className="jj-card p-6">
+              <h3 className="text-lg font-extrabold text-[var(--ink)] mb-6">Related Articles</h3>
+              <div className="flex flex-col gap-6">
+                {relatedPosts.map(rp => (
+                  <Link key={rp.id} href={`/blog/${rp.slug}`} className="flex gap-4 no-underline group">
+                    <div className="w-20 h-20 rounded-[var(--radius-sm)] overflow-hidden shrink-0 relative">
+                      {rp.image ? (
+                        <Image src={rp.image} alt={rp.title} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
+                      ) : (
+                        <div className="w-full h-full bg-[var(--gold-muted)]" />
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="text-[15px] font-bold text-[var(--ink)] leading-snug mb-1 line-clamp-2 group-hover:text-[var(--gold)] transition-colors">
+                        {rp.title}
+                      </h4>
+                      <span className="text-xs text-[var(--text-faint)]">{rp.date}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </section>
     </div>
   );
 }

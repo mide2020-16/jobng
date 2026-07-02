@@ -1,168 +1,180 @@
 "use client";
+
 import { useState } from "react";
-import { FiMapPin, FiSend, FiCheckCircle, FiPhone, FiMail, FiClock } from "react-icons/fi";
+import { FiMapPin, FiPhone, FiMail, FiClock, FiCheckCircle, FiLoader } from "react-icons/fi";
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => { setLoading(false); setSubmitted(true); }, 1200);
+    setStatus("loading");
+    setErrorMsg("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+
+      if (result.ok) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+        setErrorMsg(result.error || "An error occurred");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Network error. Please try again.");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-gray-900 to-green-950 py-14 text-center">
-        <div className="max-w-3xl mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Get In Touch</h1>
-          <p className="text-green-200">We&apos;d love to hear from you. Send us a message and we&apos;ll respond within 24 hours.</p>
+    <div className="min-h-screen bg-[var(--surface)] pb-20 animate-fade-in-up">
+      {/* Hero */}
+      <section className="bg-[var(--ink)] pt-[calc(var(--nav-height)+3rem)] pb-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_100%_0%,rgba(0,166,81,0.08)_0%,transparent_60%),radial-gradient(ellipse_40%_60%_at_0%_100%,rgba(141,198,63,0.06)_0%,transparent_50%)] pointer-events-none" />
+        <div className="container-xl relative text-center">
+          <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-extrabold text-white mb-4 -tracking-[0.02em] leading-[1.1]">
+            Get In Touch
+          </h1>
+          <p className="text-white/70 text-lg max-w-[600px] mx-auto">
+            We're here to help. Send us a message and we'll respond as soon as possible.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Contact Info */}
-          <div className="space-y-5">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Contact Information</h2>
-            <div className="space-y-4">
-              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
-                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
-                  <FiMapPin className="text-green-600" size={16} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Our Office</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    14 Admiralty Way, Lekki Phase 1,<br />Lagos, Nigeria
-                  </p>
-                </div>
+      <section className="container-xl -mt-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8">
+          
+          {/* Info Sidebar */}
+          <div className="flex flex-col gap-4">
+            <div className="jj-card p-6 flex gap-4 items-start">
+              <div className="w-12 h-12 rounded-full bg-[var(--gold-muted)] flex items-center justify-center text-[var(--gold)] shrink-0">
+                <FiMapPin size={20} />
               </div>
-              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
-                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
-                  <FiPhone className="text-green-600" size={16} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Phone / USSD</p>
-                  <p className="text-sm text-gray-500">
-                    +234 (0) 800 000 7098<br />
-                    <span className="font-semibold text-green-700">*7098#</span> (MTN USSD)
-                  </p>
-                </div>
+              <div>
+                <h4 className="text-sm font-bold text-[var(--text-faint)] uppercase tracking-widest mb-1">Office</h4>
+                <p className="text-[var(--ink)] font-semibold text-base m-0">14 Admiralty Way,<br />Lekki Phase 1, Lagos</p>
               </div>
-              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
-                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
-                  <FiMail className="text-green-600" size={16} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Email</p>
-                  <p className="text-sm text-gray-500">
-                    hello@justjobng.com<br />
-                    support@justjobng.com
-                  </p>
-                </div>
+            </div>
+            
+            <div className="jj-card p-6 flex gap-4 items-start">
+              <div className="w-12 h-12 rounded-full bg-[var(--gold-muted)] flex items-center justify-center text-[var(--gold)] shrink-0">
+                <FiPhone size={20} />
               </div>
-              <div className="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
-                <div className="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
-                  <FiClock className="text-green-600" size={16} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900 mb-0.5">Support Hours</p>
-                  <p className="text-sm text-gray-500">
-                    Mon – Fri: 8:00 AM – 6:00 PM (WAT)<br />
-                    Sat: 10:00 AM – 2:00 PM
-                  </p>
-                </div>
+              <div>
+                <h4 className="text-sm font-bold text-[var(--text-faint)] uppercase tracking-widest mb-1">Phone & USSD</h4>
+                <p className="text-[var(--ink)] font-semibold text-base m-0">*7098#<br />+234 800 JUSTJOB</p>
+              </div>
+            </div>
+
+            <div className="jj-card p-6 flex gap-4 items-start">
+              <div className="w-12 h-12 rounded-full bg-[var(--gold-muted)] flex items-center justify-center text-[var(--gold)] shrink-0">
+                <FiMail size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-[var(--text-faint)] uppercase tracking-widest mb-1">Email</h4>
+                <p className="text-[var(--ink)] font-semibold text-base m-0">hello@justjobng.com</p>
+              </div>
+            </div>
+
+            <div className="jj-card p-6 flex gap-4 items-start">
+              <div className="w-12 h-12 rounded-full bg-[var(--gold-muted)] flex items-center justify-center text-[var(--gold)] shrink-0">
+                <FiClock size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-[var(--text-faint)] uppercase tracking-widest mb-1">Hours</h4>
+                <p className="text-[var(--ink)] font-semibold text-base m-0">Mon-Fri: 8am - 6pm WAT<br />Sat-Sun: Closed</p>
               </div>
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-sm">
-              {submitted ? (
-                <div className="text-center py-10">
-                  <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <FiCheckCircle className="text-green-500 text-3xl" />
+          {/* Form */}
+          <div className="jj-card p-10">
+            <h2 className="text-2xl font-extrabold text-[var(--ink)] mb-8">Send a Message</h2>
+            
+            {status === "success" ? (
+              <div className="text-center py-12">
+                <FiCheckCircle size={64} className="text-[var(--gold)] mx-auto mb-6" />
+                <h3 className="text-2xl font-extrabold text-[var(--ink)] mb-2">Message Sent!</h3>
+                <p className="text-[var(--text-muted)]">Thank you for reaching out. We will get back to you within 24 hours.</p>
+                <button 
+                  onClick={() => setStatus("idle")} 
+                  className="jj-btn jj-btn--ghost mt-8"
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-bold text-[var(--ink)]">Full Name</label>
+                    <input 
+                      name="name" 
+                      required 
+                      className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)]"
+                      placeholder="e.g. Adewale Okafor" 
+                    />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-                  <p className="text-gray-500 text-sm">Thank you for reaching out. Our team will get back to you within 24 hours.</p>
-                  <button
-                    onClick={() => { setSubmitted(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
-                    className="mt-6 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors"
-                  >
-                    Send Another Message
-                  </button>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-bold text-[var(--ink)]">Email Address</label>
+                    <input 
+                      name="email" 
+                      type="email" 
+                      required 
+                      className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)]"
+                      placeholder="e.g. adewale@example.com" 
+                    />
+                  </div>
                 </div>
-              ) : (
-                <>
-                  <h2 className="text-xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1.5">Full Name *</label>
-                        <input
-                          required
-                          type="text"
-                          value={form.name}
-                          onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all"
-                          placeholder="Your full name"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address *</label>
-                        <input
-                          required
-                          type="email"
-                          value={form.email}
-                          onChange={(e) => setForm({ ...form, email: e.target.value })}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all"
-                          placeholder="your@email.com"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">Subject *</label>
-                      <input
-                        required
-                        type="text"
-                        value={form.subject}
-                        onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all"
-                        placeholder="How can we help you?"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">Message *</label>
-                      <textarea
-                        required
-                        rows={5}
-                        value={form.message}
-                        onChange={(e) => setForm({ ...form, message: e.target.value })}
-                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-50 transition-all resize-none"
-                        placeholder="Tell us more about your inquiry..."
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-3 rounded-xl transition-colors text-sm"
-                    >
-                      {loading ? (
-                        <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Sending...</span>
-                      ) : (
-                        <><FiSend size={14} /> Send Message</>
-                      )}
-                    </button>
-                  </form>
-                </>
-              )}
-            </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-[var(--ink)]">Subject</label>
+                  <input 
+                    name="subject" 
+                    required 
+                    className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)]"
+                    placeholder="How can we help you?" 
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-[var(--ink)]">Message</label>
+                  <textarea 
+                    name="message" 
+                    required 
+                    rows={6} 
+                    className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all resize-y bg-[var(--surface-elevated)]"
+                    placeholder="Write your message here..." 
+                  />
+                </div>
+
+                {status === "error" && (
+                  <div className="bg-[#FEE2E2] text-[#991B1B] p-4 rounded-[var(--radius-sm)] text-sm font-semibold">
+                    {errorMsg}
+                  </div>
+                )}
+
+                <button 
+                  type="submit" 
+                  disabled={status === "loading"}
+                  className="jj-btn jj-btn--gold p-4 text-base mt-2 flex justify-center w-full"
+                >
+                  {status === "loading" ? <FiLoader className="animate-spin" size={20} /> : "Send Message"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

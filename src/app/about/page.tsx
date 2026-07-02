@@ -1,155 +1,163 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FiUsers, FiBriefcase, FiAward, FiSmartphone, FiArrowRight } from "react-icons/fi";
+import { FiUsers, FiBriefcase, FiAward, FiSmartphone } from "react-icons/fi";
+
+export const metadata: Metadata = {
+  title: "About Us | JustJobNG",
+  description: "Learn about JustJobNG, Nigeria's premier job discovery platform.",
+};
+
+const stats = [
+  { label: "Active Listings", value: "5,000+" },
+  { label: "Job Seekers", value: "120K+" },
+  { label: "Employers", value: "800+" },
+  { label: "States Covered", value: "36" },
+];
 
 const values = [
-  { icon: FiUsers, title: "People First", desc: "We believe every Nigerian deserves access to quality employment — regardless of their location or internet access." },
-  { icon: FiBriefcase, title: "Quality Matches", desc: "We connect the right candidates with the right Nigerian employers, bridging the gap between talent and opportunity." },
-  { icon: FiAward, title: "Trust & Integrity", desc: "We operate with full transparency and hold ourselves to the highest standards of honesty with both job seekers and employers." },
-  { icon: FiSmartphone, title: "Accessible Tech", desc: "Via *7098# USSD, anyone with a basic phone and an MTN line can access our platform — no smartphone needed." },
+  {
+    icon: <FiUsers size={24} className="text-[var(--gold)]" />,
+    title: "People First",
+    description: "We prioritize the needs of Nigerian job seekers and employers, ensuring every feature serves a real purpose.",
+  },
+  {
+    icon: <FiBriefcase size={24} className="text-[var(--gold)]" />,
+    title: "Quality Matches",
+    description: "We focus on connecting the right talent with the right opportunities, reducing the noise in the hiring process.",
+  },
+  {
+    icon: <FiAward size={24} className="text-[var(--gold)]" />,
+    title: "Trust & Integrity",
+    description: "We vet our employers and listings to ensure a safe and reliable platform for all users.",
+  },
+  {
+    icon: <FiSmartphone size={24} className="text-[var(--gold)]" />,
+    title: "Accessible Tech",
+    description: "From our web platform to our *7098# USSD service, we ensure everyone can find a job, regardless of their device.",
+  },
 ];
 
 const team = [
-  { name: "Adewale Okafor", role: "Chief Executive Officer", initials: "AO", color: "#00A651" },
-  { name: "Chidinma Eze", role: "Head of Product", initials: "CE", color: "#0BAB64" },
-  { name: "Tunde Fashola", role: "Lead Engineer", initials: "TF", color: "#8DC63F" },
-  { name: "Amaka Nwosu", role: "Head of Partnerships", initials: "AN", color: "#00863F" },
+  { name: "Adewale Okafor", role: "CEO & Founder", initials: "AO", color: "bg-blue-100 text-blue-700" },
+  { name: "Chidinma Eze", role: "Head of Product", initials: "CE", color: "bg-purple-100 text-purple-700" },
+  { name: "Tunde Fashola", role: "Lead Engineer", initials: "TF", color: "bg-orange-100 text-orange-700" },
+  { name: "Amaka Nwosu", role: "Head of Partnerships", initials: "AN", color: "bg-green-100 text-green-700" },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white pt-20">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-gray-900 via-green-950 to-gray-900 py-20 text-center">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <span className="inline-block bg-green-600/20 text-green-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5 border border-green-500/30">
-            Our Story
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-5 leading-tight">
-            Nigeria&apos;s job platform built for <span className="text-green-400">every Nigerian</span>
+    <div className="min-h-screen bg-[var(--surface)] pb-20 animate-fade-in-up">
+      {/* Hero Section */}
+      <section className="bg-[var(--ink)] pt-[calc(var(--nav-height)+3rem)] pb-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_100%_0%,rgba(0,166,81,0.08)_0%,transparent_60%),radial-gradient(ellipse_40%_60%_at_0%_100%,rgba(141,198,63,0.06)_0%,transparent_50%)] pointer-events-none" />
+        <div className="container-xl relative text-center">
+          <span className="jj-pill mb-4 inline-block">Our Story</span>
+          <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold text-white mb-4 -tracking-[0.02em] leading-[1.1]">
+            Nigeria's job platform<br />built for every Nigerian
           </h1>
-          <p className="text-green-200 text-lg leading-relaxed">
-            JustJobNG was built with a simple belief: every Nigerian deserves a fair shot at quality employment — whether
-            they have a smartphone or not. We connect job seekers and employers across all 36 states via USSD, SMS, and the web.
+          <p className="text-white/70 text-lg max-w-[600px] mx-auto">
+            We're bridging the gap between talent and opportunity across all 36 states, making job discovery accessible to everyone.
           </p>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-16 bg-gray-50 border-b border-gray-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-            {[
-              { value: "5,000+", label: "Active Job Listings" },
-              { value: "120K+", label: "Registered Job Seekers" },
-              { value: "800+", label: "Nigerian Employers" },
-              { value: "36", label: "States Covered" },
-            ].map(({ value, label }) => (
-              <div key={label}>
-                <div className="text-3xl font-extrabold text-green-600 mb-1">{value}</div>
-                <div className="text-sm text-gray-500 font-medium">{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-3 block">Who We Are</span>
-              <h2 className="text-3xl font-bold text-gray-900 mb-5 leading-tight">
-                Building Nigeria&apos;s most accessible employment platform
-              </h2>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                JustJobNG was born out of a frustrating reality: millions of talented Nigerians
-                had no reliable way to discover quality job opportunities, and employers couldn&apos;t
-                reach them either — especially those without smartphones or data access.
-              </p>
-              <p className="text-gray-600 leading-relaxed mb-6">
-                So we built a platform that works for everyone. Via <strong>*7098#</strong>, any Nigerian
-                with an MTN line can subscribe, get job alerts by SMS, and apply — no smartphone, no data
-                bundle needed. Employers post vacancies that reach candidates across all 36 states.
-              </p>
-              <Link
-                href="/jobs"
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
-              >
-                Browse Open Jobs <FiArrowRight size={14} />
-              </Link>
+      {/* Stats Strip */}
+      <section className="container-xl -mt-8 relative z-10">
+        <div className="jj-card grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8 p-10 text-center">
+          {stats.map((stat, i) => (
+            <div key={i}>
+              <div className="text-[2.5rem] font-extrabold text-[var(--ink)] mb-2 -tracking-[0.02em]">{stat.value}</div>
+              <div className="text-[var(--text-muted)] text-sm font-semibold uppercase tracking-widest">{stat.label}</div>
             </div>
-            <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
-              <Image
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format"
-                alt="Team collaboration"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-2 block">What Drives Us</span>
-            <h2 className="text-3xl font-bold text-gray-900">Our Core Values</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4">
-                  <Icon className="text-green-600" size={22} />
-                </div>
-                <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-green-600 text-sm font-semibold uppercase tracking-widest mb-2 block">The People Behind JustJobNG</span>
-            <h2 className="text-3xl font-bold text-gray-900">Meet Our Team</h2>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {team.map(({ name, role, initials, color }) => (
-              <div key={name} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center hover:shadow-md transition-shadow">
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-xl font-extrabold mx-auto mb-4"
-                  style={{ background: color }}
-                >
-                  {initials}
-                </div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">{name}</h3>
-                <p className="text-xs text-gray-500">{role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-green-600 text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-white mb-3">Ready to find your next opportunity?</h2>
-          <p className="text-green-100 mb-7">Join millions of professionals who trust JustJobNG for their careers.</p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/jobs" className="bg-white text-green-600 font-bold px-8 py-3 rounded-xl hover:bg-green-50 transition-colors text-sm">
-              Browse Jobs
-            </Link>
-            <Link href="/post-job" className="bg-green-800 hover:bg-green-900 text-white font-bold px-8 py-3 rounded-xl transition-colors text-sm">
-              Post a Job
+      {/* Mission Section */}
+      <section className="container-xl mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 className="text-3xl font-extrabold text-[var(--ink)] mb-6 -tracking-[0.02em]">
+              <span className="inline-block w-10 h-1 bg-[var(--gold)] mb-4 rounded-sm" /><br />
+              Empowering careers through technology
+            </h2>
+            <p className="text-[var(--text-muted)] text-[1.0625rem] leading-relaxed mb-6">
+              Founded in 2023, JustJobNG was built out of frustration with existing job portals that were either too complex, full of scams, or inaccessible to millions of Nigerians without smartphones or reliable internet.
+            </p>
+            <p className="text-[var(--text-muted)] text-[1.0625rem] leading-relaxed mb-10">
+              We believe finding a job should be simple, transparent, and fair. That's why we created a unified platform that works just as well on a laptop in Lagos as it does on a feature phone in Kano via our *7098# USSD service.
+            </p>
+            <Link href="/jobs" className="jj-btn jj-btn--gold px-8 py-3.5 text-base">
+              Browse Open Roles
             </Link>
           </div>
+          <div className="relative h-[500px] rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-lg)]">
+            <Image 
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format" 
+              alt="JustJobNG Team" 
+              fill 
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="container-xl mt-24">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-extrabold text-[var(--ink)] mb-4 -tracking-[0.02em]">Our Core Values</h2>
+          <p className="text-[var(--text-muted)] text-lg max-w-[600px] mx-auto">
+            The principles that guide every decision we make.
+          </p>
+        </div>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
+          {values.map((value, i) => (
+            <div key={i} className="jj-card p-8">
+              <div className="w-12 h-12 rounded-xl bg-[var(--gold-muted)] flex items-center justify-center mb-6">
+                {value.icon}
+              </div>
+              <h3 className="text-xl font-extrabold text-[var(--ink)] mb-3">{value.title}</h3>
+              <p className="text-[var(--text-muted)] text-[15px] leading-relaxed">{value.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="container-xl mt-24 mb-24">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-extrabold text-[var(--ink)] mb-4 -tracking-[0.02em]">Meet the Leadership</h2>
+          <p className="text-[var(--text-muted)] text-lg max-w-[600px] mx-auto">
+            The people working hard to connect you with your next opportunity.
+          </p>
+        </div>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8">
+          {team.map((member, i) => (
+            <div key={i} className="text-center">
+              <div className="w-[120px] h-[120px] rounded-full bg-[var(--surface-elevated)] border border-[var(--border)] flex items-center justify-center text-3xl font-extrabold text-[var(--ink)] mx-auto mb-4 shadow-[var(--shadow-sm)]">
+                {member.initials}
+              </div>
+              <h3 className="text-lg font-extrabold text-[var(--ink)] mb-1">{member.name}</h3>
+              <p className="text-[var(--text-muted)] text-sm font-medium">{member.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-[var(--ink)] py-20 text-center mx-4 rounded-[var(--radius-xl)]">
+        <h2 className="text-[2.5rem] font-extrabold text-white mb-6 -tracking-[0.02em]">
+          Ready to find your next opportunity?
+        </h2>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <Link href="/jobs" className="jj-btn jj-btn--gold px-8 py-3.5 text-base">
+            Browse Jobs
+          </Link>
+          <Link href="/post-job" className="jj-btn px-8 py-3.5 text-base bg-white/10 text-white border border-white/20">
+            Post a Job
+          </Link>
         </div>
       </section>
     </div>

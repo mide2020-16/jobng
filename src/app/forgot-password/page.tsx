@@ -1,253 +1,260 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FiBriefcase, FiCheckCircle, FiPhone, FiArrowLeft } from "react-icons/fi";
-import { normalizeNigerianPhone } from "@/lib/phone";
+import { FiPhone, FiCheckCircle, FiEye, FiEyeOff, FiChevronDown, FiArrowRight, FiArrowLeft } from "react-icons/fi";
+import Logo from "@/components/brand/Logo";
 
-// --- 6-Digit OTP Input Component ---
-function OtpInput({ value, onChange }: { value: string; onChange: (val: string) => void }) {
-  const inputs = useRef<(HTMLInputElement | null)[]>([]);
+const PIN_LENGTH = 4;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const val = e.target.value;
-    if (/[^0-9]/.test(val)) return; // Only allow numbers
+const countryCodes = [
+  { code: "+234", flag: "🇳🇬", name: "NG" },
+  { code: "+1", flag: "🇺🇸", name: "US" },
+  { code: "+44", flag: "🇬🇧", name: "UK" },
+  { code: "+27", flag: "🇿🇦", name: "ZA" },
+  { code: "+254", flag: "🇰🇪", name: "KE" },
+];
 
-    const newPin = value.split("");
-    newPin[index] = val;
-    const finalPin = newPin.join("").slice(0, 6);
-    onChange(finalPin);
-
-    // Auto-focus next input
-    if (val && index < 5) {
-      inputs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (e.key === "Backspace" && !value[index] && index > 0) {
-      // If backspace is pressed on an empty box, jump to the previous box
-      inputs.current[index - 1]?.focus();
-    }
-  };
-
-  const handlePaste = (e: React.ClipboardEvent) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
-    if (pastedData) {
-      onChange(pastedData);
-      // Focus the next empty input, or the last one if full
-      const focusIndex = Math.min(pastedData.length, 5);
-      inputs.current[focusIndex]?.focus();
-    }
-  };
+function PhoneInput({
+  value,
+  onChange,
+  countryCode,
+  onCountryChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  countryCode: string;
+  onCountryChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const selected = countryCodes.find((c) => c.code === countryCode) ?? countryCodes[0];
 
   return (
-    <div className="flex items-center justify-between gap-2" onPaste={handlePaste}>
-      {Array.from({ length: 6 }).map((_, i) => (
+    <div className="jj-login-field">
+      <button type="button" className="jj-login-field__cc" onClick={() => setOpen(!open)}>
+        <span>{selected.flag}</span>
+        <span>{selected.code}</span>
+        <FiChevronDown size={12} className={open ? "jj-login-field__chev--open" : ""} />
+      </button>
+      {open && (
+        <div className="jj-login-field__dropdown">
+          {countryCodes.map((c) => (
+            <button
+              key={c.code}
+              type="button"
+              className={`jj-login-field__option ${countryCode === c.code ? "jj-login-field__option--active" : ""}`}
+              onClick={() => { onCountryChange(c.code); setOpen(false); }}
+            >
+              <span>{c.flag}</span>
+              <span>{c.code}</span>
+              <span className="jj-login-field__option-name">{c.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="jj-login-field__input-wrap">
+        <FiPhone size={15} className="jj-login-field__icon" />
         <input
-          title="otp code"
-          key={i}
-          ref={(el) => { inputs.current[i] = el; }}
-          type="text"
-          inputMode="numeric"
-          maxLength={1}
-          value={value[i] || ""}
-          onChange={(e) => handleChange(e, i)}
-          onKeyDown={(e) => handleKeyDown(e, i)}
-          className="w-12 h-12 flex-1 text-center text-xl tracking-widest font-bold text-gray-900 bg-transparent border-[1.5px] border-slate-200 rounded-xl outline-none focus:border-[#00863F] focus:ring-1 focus:ring-[#00863F] transition-all"
+          type="tel"
+          value={value}
+          onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
+          placeholder="806 000 0000"
+          maxLength={11}
+          className="jj-login-field__input"
         />
-      ))}
+      </div>
     </div>
   );
 }
 
-// --- Main Page Component ---
-type Step = "request" | "verify";
+function PinInput({ value, onChange, placeholder = "••••" }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <div className="jj-login-field jj-login-field--pin">
+        <input
+          required
+          type={show ? "text" : "password"}
+          inputMode="numeric"
+          pattern="[0-9]*"
+          value={value}
+          onChange={(e) => onChange(e.target.value.replace(/\D/g, "").slice(0, PIN_LENGTH))}
+          placeholder={placeholder}
+          maxLength={PIN_LENGTH}
+          className="jj-login-field__input jj-login-field__input--pin"
+          autoComplete="one-time-code"
+        />
+        <button type="button" className="jj-login-field__toggle" onClick={() => setShow(!show)} aria-label={show ? "Hide PIN" : "Show PIN"}>
+          {show ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+        </button>
+      </div>
+      <div className="jj-login-pin-dots" aria-hidden>
+        {Array.from({ length: PIN_LENGTH }).map((_, i) => (
+          <span key={i} className={`jj-login-pin-dot ${i < value.length ? "jj-login-pin-dot--filled" : ""}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
-  const [step, setStep] = useState<Step>("request");
-  const [phone, setPhone] = useState("");
-  const [pin, setPin] = useState("");
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  
+  // Step 1 state
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("+234");
+  
+  // Step 2 state
+  const [pin, setPin] = useState("");
 
-  const normalizedPreview = normalizeNigerianPhone(phone);
-
-  async function handleRequest(e: React.FormEvent) {
+  const handleRequestReset = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    const normalized = normalizeNigerianPhone(phone);
-    if (!/^234\d{10}$/.test(normalized)) {
-      setError("Enter a valid Nigerian phone number, e.g. 08012345678.");
-      return;
-    }
+    if (phone.length < 7) return;
+    
     setLoading(true);
+    setError("");
+    
     try {
       const res = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: normalized }),
+        body: JSON.stringify({ phone, countryCode }),
       });
       const data = await res.json();
+      
       if (!res.ok || !data.ok) {
-        setError(data.error ?? "Could not send reset code.");
+        setError(data.error || "Failed to request reset");
         return;
       }
-      setStep("verify");
+      
+      setStep(2);
     } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function handleVerify(e: React.FormEvent) {
+  const handleResetPin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    const normalized = normalizeNigerianPhone(phone);
-    
-    if (!/^\d{6}$/.test(pin)) {
-      setError("Enter the 6-digit code from SMS.");
-      return;
-    }
+    if (pin.length !== PIN_LENGTH) return;
     
     setLoading(true);
+    setError("");
+    
     try {
       const res = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone_number: normalized, pin: pin }),
+        body: JSON.stringify({ phone, pin, countryCode }),
       });
       const data = await res.json();
+      
       if (!res.ok || !data.ok) {
-        setError(data.error ?? "Invalid code. Try again.");
+        setError(data.error || "Failed to reset PIN");
         return;
       }
-      setSuccess(true);
-      setTimeout(() => router.push("/login"), 1500);
+      
+      setStep(3);
     } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  // Success State UI
-  if (success) {
+  if (step === 3) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 pt-20">
-        <div className="bg-white rounded-[20px] border-[1.5px] border-gray-200 p-12 max-w-100 w-full text-center">
-          <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-5">
-            <FiCheckCircle className="text-green-600 text-3xl" />
+      <div className="jj-login-page">
+        <div className="jj-login-card jj-login-card--success">
+          <div className="jj-login-success-icon">
+            <FiCheckCircle size={32} />
           </div>
-          <h2 className="text-xl font-extrabold text-gray-900 mb-2">PIN reset!</h2>
-          <p className="text-sm text-gray-500">Redirecting you to sign in…</p>
+          <h2 className="jj-login-success-title">PIN Reset!</h2>
+          <p className="jj-login-success-sub">Your new PIN has been set successfully.</p>
+          <Link href="/login" className="jj-btn jj-btn--gold py-3 px-7">
+            Back to Login <FiArrowRight size={16} />
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 pt-24 pb-12">
-      <div className="w-full max-w-110">
-        {/* Header Logo */}
-        <div className="text-center mb-7">
-          <Link href="/" className="inline-flex items-center gap-2.5 no-underline">
-            <div className="w-10 h-10 bg-[#00863F] rounded-lg flex items-center justify-center">
-              <FiBriefcase className="text-white text-xl" />
+    <div className="jj-login-page">
+      <div className="jj-login-split">
+        {/* Left panel — brand */}
+        <div className="jj-login-panel jj-login-panel--brand">
+          <div className="jj-login-panel__grid" aria-hidden />
+          <div className="jj-login-panel__content">
+            <Logo variant="dark" size="lg" href="/" />
+            <h1 className="jj-login-panel__title">
+              Reset your PIN<br />
+              <span>securely.</span>
+            </h1>
+            <p className="jj-login-panel__sub">
+              Enter your registered phone number, and we&apos;ll help you securely reset your 4-digit PIN.
+            </p>
+            <div className="jj-login-panel__ussd">
+              <span className="jj-login-panel__ussd-code">*7098#</span>
+              <span className="jj-login-panel__ussd-label">Works on any network</span>
             </div>
-            <span className="text-[22px] font-extrabold text-gray-900">JustJobNG</span>
-          </Link>
+          </div>
         </div>
 
-        {/* Main Card */}
-        <div className="bg-white rounded-[20px] border-[1.5px] border-gray-200 p-7 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
-          <h2 className="text-xl font-extrabold text-gray-900 mb-1">
-            {step === "request" ? "Forgot your PIN?" : "Enter reset code"}
-          </h2>
-          <p className="text-[13px] text-gray-400 mb-6">
-            {step === "request"
-              ? "We'll text a reset code to your phone number."
-              : `Code sent to ${normalizedPreview}`}
-          </p>
+        {/* Right panel — form */}
+        <div className="jj-login-panel jj-login-panel--form">
+          <div className="jj-login-form-wrap">
+            <Link href="/login" className="inline-flex items-center gap-2 text-[var(--text-muted)] text-sm font-semibold no-underline mb-8 hover:text-[var(--ink)] transition-colors">
+              <FiArrowLeft size={16} /> Back to Login
+            </Link>
 
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-50 text-red-700 px-3.5 py-2.5 rounded-lg text-[13px] mb-4">
-              {error}
+            <div className="jj-login-form-head">
+              <h2>{step === 1 ? "Forgot your PIN?" : "Enter new PIN"}</h2>
+              <p>{step === 1 ? "Enter your phone number to continue" : "We've sent an SMS with a reset code. Enter your new PIN."}</p>
             </div>
-          )}
 
-          {/* Forms */}
-          {step === "request" ? (
-            <form onSubmit={handleRequest} className="flex flex-col gap-4.5 space-y-4">
-              <div>
-                <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">Phone number</label>
-                <div className="flex items-center border-[1.5px] border-slate-200 rounded-xl overflow-hidden focus-within:border-[#00863F] focus-within:ring-1 focus-within:ring-[#00863F] transition-all">
-                  <FiPhone className="text-gray-400 ml-3 shrink-0" size={15} />
-                  <input
-                    type="tel"
+            {error && <div className="jj-login-error">{error}</div>}
+
+            {step === 1 ? (
+              <form onSubmit={handleRequestReset} className="jj-login-form">
+                <div className="jj-login-form-group">
+                  <label className="jj-login-label">Phone number</label>
+                  <PhoneInput
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                    placeholder="08012345678"
-                    required
-                    className="flex-1 border-none outline-none px-3.5 py-3 text-sm text-gray-700 bg-transparent"
+                    onChange={setPhone}
+                    countryCode={countryCode}
+                    onCountryChange={setCountryCode}
                   />
                 </div>
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full text-white rounded-xl py-3.5 text-[15px] font-bold transition-colors ${
-                  loading ? "bg-[#6CC04A] cursor-not-allowed" : "bg-[#00863F] hover:bg-[#007034] cursor-pointer"
-                }`}
-              >
-                {loading ? "Sending…" : "Send reset code"}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleVerify} className="flex flex-col gap-4.5 space-y-5">
-              <div>
-                <label className="block text-[13px] font-semibold text-gray-700 mb-2">6-digit reset code</label>
-                <OtpInput value={pin} onChange={setPin} />
-              </div>
-              <div className="space-y-3">
-                <button
-                  type="submit"
-                  disabled={loading || pin.length < 6}
-                  className={`w-full text-white rounded-xl py-3.5 text-[15px] font-bold transition-colors ${
-                    loading || pin.length < 6 ? "bg-[#6CC04A] opacity-70 cursor-not-allowed" : "bg-[#00863F] hover:bg-[#007034] cursor-pointer"
-                  }`}
-                >
-                  {loading ? "Resetting…" : "Reset PIN"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setStep("request");
-                    setPin("");
-                    setError("");
-                  }}
-                  className="w-full bg-transparent border-none text-[#00863F] text-[13px] font-semibold cursor-pointer hover:underline"
-                >
-                  Use a different number
-                </button>
-              </div>
-            </form>
-          )}
 
-          {/* Back to login */}
-          <div className="mt-6 text-center">
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-1.5 text-[13px] text-gray-500 no-underline hover:text-gray-800 transition-colors"
-            >
-              <FiArrowLeft size={14} /> Back to sign in
-            </Link>
+                <button type="submit" disabled={phone.length < 7 || loading} className="jj-btn jj-btn--gold jj-login-submit">
+                  {loading ? (
+                    <><span className="jj-login-spinner" /> Processing…</>
+                  ) : (
+                    <>Send Reset Instructions <FiArrowRight size={16} /></>
+                  )}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleResetPin} className="jj-login-form">
+                <div className="jj-login-form-group">
+                  <label className="jj-login-label">New 4-digit PIN</label>
+                  <PinInput value={pin} onChange={setPin} placeholder="Enter new PIN" />
+                </div>
+
+                <button type="submit" disabled={pin.length !== PIN_LENGTH || loading} className="jj-btn jj-btn--gold jj-login-submit">
+                  {loading ? (
+                    <><span className="jj-login-spinner" /> Resetting PIN…</>
+                  ) : (
+                    <>Reset PIN <FiArrowRight size={16} /></>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

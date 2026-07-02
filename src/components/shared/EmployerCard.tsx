@@ -5,49 +5,39 @@ import { Employer } from "@/types";
 
 export default function EmployerCard({ employer }: { employer: Employer }) {
   return (
-    <div className="job-card bg-white rounded-2xl border border-gray-100 p-5 flex items-start gap-4 shadow-sm">
+    <div className="jj-card p-6 flex gap-6 items-start transition-shadow duration-200 hover:shadow-md hover:border-[var(--gold-glow)]">
       <Link href={`/employers/${employer.id}`} className="shrink-0">
-        <div className="w-14 h-14 rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
-          <Image
-            src={employer.logo}
-            alt={employer.name}
-            width={56}
-            height={56}
-            className="w-full h-full object-cover"
-          />
+        <div className="w-16 h-16 rounded-[var(--radius-sm)] overflow-hidden border border-[var(--border)] bg-[var(--surface)]">
+          {employer.logo ? (
+             <Image src={employer.logo} alt={employer.name} width={64} height={64} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-2xl font-extrabold text-[var(--ink)]">
+               {employer.name.charAt(0)}
+            </div>
+          )}
         </div>
       </Link>
       <div className="flex-1 min-w-0">
-        <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="flex justify-between items-start flex-wrap gap-2 mb-1">
           <div>
-            <Link
-              href={`/employers/${employer.id}`}
-              className="font-semibold text-gray-900 hover:text-green-600 transition-colors"
-            >
+            <Link href={`/employers/${employer.id}`} className="text-lg font-extrabold text-[var(--ink)] no-underline hover:text-[var(--gold)] transition-colors">
               {employer.name}
             </Link>
-            <p className="text-sm text-gray-500">{employer.industry}</p>
+            <p className="text-[15px] font-medium text-[var(--text-muted)]">{employer.industry}</p>
           </div>
-          <span className="text-xs bg-green-50 text-green-600 font-semibold px-2.5 py-1 rounded-full">
+          <span className="jj-pill bg-[var(--gold-muted)] text-[var(--gold-hover)] border-none">
             {employer.openJobs} Open {employer.openJobs === 1 ? "Job" : "Jobs"}
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-gray-500">
-          <span className="flex items-center gap-1">
-            <FiMapPin size={11} /> {employer.location}
-          </span>
-          <span className="flex items-center gap-1">
-            <FiBriefcase size={11} /> {employer.employees} employees
-          </span>
+        
+        <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-muted)] mt-3">
+          <span className="flex items-center gap-1"><FiMapPin size={14} /> {employer.location}</span>
+          <span className="flex items-center gap-1"><FiBriefcase size={14} /> {employer.employees} employees</span>
           <span>Est. {employer.founded}</span>
         </div>
       </div>
-      <Link
-        href={`/employers/${employer.id}`}
-        className="shrink-0 text-xs bg-green-50 hover:bg-green-600 hover:text-white text-green-600 font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
-      >
-        <FiExternalLink size={12} />
-        View
+      <Link href={`/employers/${employer.id}`} className="jj-btn jj-btn--ghost px-4 py-2 text-sm shrink-0">
+        View <FiExternalLink size={14} className="ml-1" />
       </Link>
     </div>
   );

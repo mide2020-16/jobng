@@ -61,16 +61,16 @@ export default function CandidatesPage() {
             {/* Dropdowns */}
             <div className="relative flex-[1_1_150px]">
               <FiMapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-faint)] pointer-events-none" />
-              <select value={location} onChange={e => setLocation(e.target.value)} className="w-full py-2.5 pr-3.5 pl-9 rounded-[var(--radius-sm)] border border-[var(--border-strong)] outline-none bg-[var(--surface)] appearance-none focus:border-[var(--gold)] focus:ring-[2px] focus:ring-[var(--gold-muted)] transition-all">
+              <select title="location" value={location} onChange={e => setLocation(e.target.value)} className="w-full py-2.5 pr-3.5 pl-9 rounded-[var(--radius-sm)] border border-[var(--border-strong)] outline-none bg-[var(--surface)] appearance-none focus:border-[var(--gold)] focus:ring-[2px] focus:ring-[var(--gold-muted)] transition-all">
                 {locations.map(l => <option key={l} value={l}>{l}</option>)}
               </select>
             </div>
 
-            <select value={category} onChange={e => setCategory(e.target.value)} className="flex-[1_1_150px] py-2.5 px-3.5 rounded-[var(--radius-sm)] border border-[var(--border-strong)] outline-none bg-[var(--surface)] appearance-none focus:border-[var(--gold)] focus:ring-[2px] focus:ring-[var(--gold-muted)] transition-all">
+            <select title="category" value={category} onChange={e => setCategory(e.target.value)} className="flex-[1_1_150px] py-2.5 px-3.5 rounded-[var(--radius-sm)] border border-[var(--border-strong)] outline-none bg-[var(--surface)] appearance-none focus:border-[var(--gold)] focus:ring-[2px] focus:ring-[var(--gold-muted)] transition-all">
               {categories.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
 
-            <select value={availability} onChange={e => setAvailability(e.target.value)} className="flex-[1_1_150px] py-2.5 px-3.5 rounded-[var(--radius-sm)] border border-[var(--border-strong)] outline-none bg-[var(--surface)] appearance-none focus:border-[var(--gold)] focus:ring-[2px] focus:ring-[var(--gold-muted)] transition-all">
+            <select title="availability" value={availability} onChange={e => setAvailability(e.target.value)} className="flex-[1_1_150px] py-2.5 px-3.5 rounded-[var(--radius-sm)] border border-[var(--border-strong)] outline-none bg-[var(--surface)] appearance-none focus:border-[var(--gold)] focus:ring-[2px] focus:ring-[var(--gold-muted)] transition-all">
               <option value="All">All Availability</option>
               <option value="Available">Available</option>
               <option value="Open to Offers">Open to Offers</option>

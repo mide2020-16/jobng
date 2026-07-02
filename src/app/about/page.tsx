@@ -54,10 +54,10 @@ export default function AboutPage() {
         <div className="container-xl relative text-center">
           <span className="jj-pill mb-4 inline-block">Our Story</span>
           <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold text-white mb-4 -tracking-[0.02em] leading-[1.1]">
-            Nigeria's job platform<br />built for every Nigerian
+            Nigeria&apos;s job platform<br />built for every Nigerian
           </h1>
           <p className="text-white/70 text-lg max-w-[600px] mx-auto">
-            We're bridging the gap between talent and opportunity across all 36 states, making job discovery accessible to everyone.
+            We&apos;re bridging the gap between talent and opportunity across all 36 states, making job discovery accessible to everyone.
           </p>
         </div>
       </section>
@@ -86,7 +86,7 @@ export default function AboutPage() {
               Founded in 2023, JustJobNG was built out of frustration with existing job portals that were either too complex, full of scams, or inaccessible to millions of Nigerians without smartphones or reliable internet.
             </p>
             <p className="text-[var(--text-muted)] text-[1.0625rem] leading-relaxed mb-10">
-              We believe finding a job should be simple, transparent, and fair. That's why we created a unified platform that works just as well on a laptop in Lagos as it does on a feature phone in Kano via our *7098# USSD service.
+              We believe finding a job should be simple, transparent, and fair. That&apos;s why we created a unified platform that works just as well on a laptop in Lagos as it does on a feature phone in Kano via our *7098# USSD service.
             </p>
             <Link href="/jobs" className="jj-btn jj-btn--gold px-8 py-3.5 text-base">
               Browse Open Roles

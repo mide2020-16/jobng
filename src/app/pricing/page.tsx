@@ -26,7 +26,7 @@ export default function PricingPage() {
             Simple, Transparent Pricing
           </h1>
           <p className="text-white/70 text-lg max-w-[600px] mx-auto">
-            Whether you're looking for your next big opportunity or hiring top talent, we have a plan designed for you.
+            Whether you&apos;re looking for your next big opportunity or hiring top talent, we have a plan designed for you.
           </p>
         </div>
       </section>
@@ -77,7 +77,7 @@ export default function PricingPage() {
                 href={plan.name.includes("Employer") ? "/post-job" : "/login"} 
                 className={`jj-btn w-full p-4 text-base border-none ${plan.isPopular ? 'bg-white text-[var(--gold)]' : 'bg-[var(--gold)] text-white'}`}
               >
-                {plan.buttonText}
+                {plan.name.includes("Employer") ? "/Post Job" : "Login"}
               </Link>
             </div>
           ))}

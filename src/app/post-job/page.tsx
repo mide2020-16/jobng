@@ -199,7 +199,7 @@ export default function PostJobPage() {
 
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-bold text-[var(--ink)]">Category *</label>
-                  <select name="category" value={formData.category} onChange={updateForm} className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)] appearance-none">
+                  <select title="category" name="category" value={formData.category} onChange={updateForm} className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)] appearance-none">
                     <option>Engineering & Tech</option>
                     <option>Sales & Marketing</option>
                     <option>Finance & Accounting</option>
@@ -232,7 +232,7 @@ export default function PostJobPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-bold text-[var(--ink)]">Experience Level</label>
-                    <select name="experience" value={formData.experience} onChange={updateForm} className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)] appearance-none">
+                    <select title="experience" name="experience" value={formData.experience} onChange={updateForm} className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)] appearance-none">
                       <option>Entry Level</option>
                       <option>Mid-Level</option>
                       <option>Senior</option>
@@ -241,11 +241,11 @@ export default function PostJobPage() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-bold text-[var(--ink)]">Education</label>
-                    <select name="education" value={formData.education} onChange={updateForm} className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)] appearance-none">
+                    <select title="availability" name="education" value={formData.education} onChange={updateForm} className="border-[1.5px] border-[var(--border-strong)] rounded-[var(--radius-sm)] py-3 px-3.5 outline-none focus:border-[var(--gold)] focus:ring-[3px] focus:ring-[var(--gold-muted)] transition-all bg-[var(--surface-elevated)] appearance-none">
                       <option>High School</option>
                       <option>Diploma / OND</option>
-                      <option>Bachelor's Degree</option>
-                      <option>Master's Degree</option>
+                      <option>Bachelor&apos;s Degree</option>
+                      <option>Master&apos;s Degree</option>
                       <option>Not Required</option>
                     </select>
                   </div>

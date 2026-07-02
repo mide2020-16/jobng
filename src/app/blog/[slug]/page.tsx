@@ -116,9 +116,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <FiShare2 size={16} /> Share this article
               </h3>
               <div className="flex gap-2">
-                <button className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiTwitter size={18} /></button>
-                <button className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiFacebook size={18} /></button>
-                <button className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiLinkedin size={18} /></button>
+                <button title="social_media_x" type='button' className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiTwitter size={18} /></button>
+                <button title="social_media_facebook" type='button' className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiFacebook size={18} /></button>
+                <button title="social_media_linkedin" type='button' className="jj-btn jj-btn--ghost flex-1 py-2.5 flex justify-center"><FiLinkedin size={18} /></button>
               </div>
             </div>
 

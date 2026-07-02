@@ -63,7 +63,7 @@ export default function CandidateCard({ candidate, variant = "grid" }: Candidate
           </div>
         </div>
         <div className="flex flex-col items-end gap-4 shrink-0">
-          <button className="bg-transparent border-none text-[var(--text-faint)] cursor-pointer hover:text-[var(--gold)] transition-colors">
+          <button title="bookmark" type="button" className="bg-transparent border-none text-[var(--text-faint)] cursor-pointer hover:text-[var(--gold)] transition-colors">
             <FiBookmark size={20} />
           </button>
           <Link href={`/candidates/${candidate.id}`} className="jj-btn jj-btn--ghost px-4 py-2 text-sm">

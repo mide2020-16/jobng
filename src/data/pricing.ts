@@ -15,6 +15,7 @@ export const pricingPlans: PricingPlan[] = [
       "Standard support via email",
     ],
     highlighted: false,
+    isPopular: false,
   },
   {
     id: "2",
@@ -32,6 +33,7 @@ export const pricingPlans: PricingPlan[] = [
     ],
     highlighted: true,
     badge: "Most Popular",
+    isPopular: true,
   },
   {
     id: "3",
@@ -48,6 +50,7 @@ export const pricingPlans: PricingPlan[] = [
       "Email & phone support",
     ],
     highlighted: false,
+    isPopular: false,
   },
   {
     id: "4",
@@ -67,5 +70,6 @@ export const pricingPlans: PricingPlan[] = [
     ],
     highlighted: false,
     badge: "Best Value",
+    isPopular: true,
   },
 ];

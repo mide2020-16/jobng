@@ -16,10 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: extractError(result.data) }, { status: result.status });
     }
 
-    return NextResponse.json({
-      ok: true,
-      message: "If an account exists, a reset code has been sent via SMS.",
-    });
+    return NextResponse.json({ ok: true, message: 'If this number is registered, you will receive a PIN reset SMS.' });
   } catch {
     return NextResponse.json({ ok: false, error: "Network error. Please try again." }, { status: 500 });
   }

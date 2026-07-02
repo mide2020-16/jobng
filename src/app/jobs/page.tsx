@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -89,7 +90,7 @@ function JobsContent() {
                 style={{ flex: 1, border: "none", outline: "none", background: "transparent", fontSize: "0.875rem", color: "var(--text)" }}
               />
               {keyword && (
-                <button type="button" onClick={() => setKeyword("")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-faint)" }}>
+                <button title="close" type="button" onClick={() => setKeyword("")} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-faint)" }}>
                   <FiX size={14} />
                 </button>
               )}
@@ -98,6 +99,7 @@ function JobsContent() {
               <div className="jj-jobs-search" style={{ flex: "0 1 200px" }}>
                 <FiGrid size={14} style={{ color: "var(--gold-hover)", flexShrink: 0 }} />
                 <select
+                title="category"
                   value={category}
                   onChange={(e) => { setCategory(e.target.value); setPage(1); }}
                   style={{ flex: 1, border: "none", outline: "none", background: "transparent", fontSize: "0.875rem", color: "var(--text)", cursor: "pointer" }}

@@ -21,7 +21,11 @@ export interface ApiResult<T = Record<string, unknown>> {
   status: number;
   data: T;
 }
-
+export interface UpdateApiResult {
+  ok: boolean;
+  status: number;
+  message: string;
+}
 export function extractError(
   data: Record<string, unknown>,
   fallback = "Something went wrong. Please try again."
@@ -47,10 +51,22 @@ export function extractToken(data: Record<string, unknown>): string | null {
 }
 
 async function parseJson(res: Response): Promise<Record<string, unknown>> {
+  const text = await res.text(); // Get raw response first
+  
   try {
-    return (await res.json()) as Record<string, unknown>;
+    // Attempt to parse as JSON
+    const data = JSON.parse(text);
+    
+    // If it's a plain string, wrap it in a 'message' property
+    if (typeof data === "string") {
+      return { message: data };
+    }
+    
+    // If it's an object, return it as is
+    return data as Record<string, unknown>;
   } catch {
-    return {};
+    // If it's not JSON, assume it's a plain text error message
+    return { message: text || res.statusText || "An unexpected error occurred" };
   }
 }
 
@@ -75,6 +91,32 @@ export async function forgotPassword(body: {
     body: JSON.stringify(body),
   });
   return { ok: res.ok, status: res.status, data: await parseJson(res) };
+}
+
+export async function updatePassword({
+  number,
+  pin,
+  confirm_pin,
+}: {
+  number: string;
+  pin: string;
+  confirm_pin: string;
+}): Promise<UpdateApiResult> {
+  const res = await fetch(`${API_BASE_URL}/api/justjob/update/password/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ number, pin, confirm_pin }),
+  });
+
+  const data = await parseJson(res);
+  console.log(data)
+  return {
+    ok: res.ok,
+    status: res.status,
+    message: extractError(data)
+  };
 }
 
 export async function resetPassword(body: {

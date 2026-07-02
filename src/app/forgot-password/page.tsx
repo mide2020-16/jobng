@@ -2,195 +2,259 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FiBriefcase, FiCheckCircle, FiPhone, FiLock, FiArrowLeft } from "react-icons/fi";
-import { normalizeNigerianPhone } from "@/lib/phone";
+import { FiPhone, FiCheckCircle, FiEye, FiEyeOff, FiChevronDown, FiArrowRight, FiArrowLeft } from "react-icons/fi";
+import Logo from "@/components/brand/Logo";
 
-type Step = "request" | "verify";
+const PIN_LENGTH = 4;
+
+const countryCodes = [
+  { code: "+234", flag: "🇳🇬", name: "NG" },
+  { code: "+1", flag: "🇺🇸", name: "US" },
+  { code: "+44", flag: "🇬🇧", name: "UK" },
+  { code: "+27", flag: "🇿🇦", name: "ZA" },
+  { code: "+254", flag: "🇰🇪", name: "KE" },
+];
+
+function PhoneInput({
+  value,
+  onChange,
+  countryCode,
+  onCountryChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  countryCode: string;
+  onCountryChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const selected = countryCodes.find((c) => c.code === countryCode) ?? countryCodes[0];
+
+  return (
+    <div className="jj-login-field">
+      <button type="button" className="jj-login-field__cc" onClick={() => setOpen(!open)}>
+        <span>{selected.flag}</span>
+        <span>{selected.code}</span>
+        <FiChevronDown size={12} className={open ? "jj-login-field__chev--open" : ""} />
+      </button>
+      {open && (
+        <div className="jj-login-field__dropdown">
+          {countryCodes.map((c) => (
+            <button
+              key={c.code}
+              type="button"
+              className={`jj-login-field__option ${countryCode === c.code ? "jj-login-field__option--active" : ""}`}
+              onClick={() => { onCountryChange(c.code); setOpen(false); }}
+            >
+              <span>{c.flag}</span>
+              <span>{c.code}</span>
+              <span className="jj-login-field__option-name">{c.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="jj-login-field__input-wrap">
+        <FiPhone size={15} className="jj-login-field__icon" />
+        <input
+          type="tel"
+          value={value}
+          onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
+          placeholder="806 000 0000"
+          maxLength={11}
+          className="jj-login-field__input"
+        />
+      </div>
+    </div>
+  );
+}
+
+function PinInput({ value, onChange, placeholder = "••••" }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <div className="jj-login-field jj-login-field--pin">
+        <input
+          required
+          type={show ? "text" : "password"}
+          inputMode="numeric"
+          pattern="[0-9]*"
+          value={value}
+          onChange={(e) => onChange(e.target.value.replace(/\D/g, "").slice(0, PIN_LENGTH))}
+          placeholder={placeholder}
+          maxLength={PIN_LENGTH}
+          className="jj-login-field__input jj-login-field__input--pin"
+          autoComplete="one-time-code"
+        />
+        <button type="button" className="jj-login-field__toggle" onClick={() => setShow(!show)} aria-label={show ? "Hide PIN" : "Show PIN"}>
+          {show ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+        </button>
+      </div>
+      <div className="jj-login-pin-dots" aria-hidden>
+        {Array.from({ length: PIN_LENGTH }).map((_, i) => (
+          <span key={i} className={`jj-login-pin-dot ${i < value.length ? "jj-login-pin-dot--filled" : ""}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
-  const [step, setStep] = useState<Step>("request");
-  const [phone, setPhone] = useState("");
-  const [pin, setPin] = useState("");
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  
+  // Step 1 state
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("+234");
+  
+  // Step 2 state
+  const [pin, setPin] = useState("");
 
-  const normalizedPreview = normalizeNigerianPhone(phone);
-
-  async function handleRequest(e: React.FormEvent) {
+  const handleRequestReset = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    const normalized = normalizeNigerianPhone(phone);
-    if (!/^234\d{10}$/.test(normalized)) {
-      setError("Enter a valid Nigerian phone number, e.g. 08012345678.");
-      return;
-    }
+    if (phone.length < 7) return;
+    
     setLoading(true);
+    setError("");
+    
     try {
       const res = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: normalized }),
+        body: JSON.stringify({ phone, countryCode }),
       });
       const data = await res.json();
+      
       if (!res.ok || !data.ok) {
-        setError(data.error ?? "Could not send reset code.");
+        setError(data.error || "Failed to request reset");
         return;
       }
-      setStep("verify");
+      
+      setStep(2);
     } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function handleVerify(e: React.FormEvent) {
+  const handleResetPin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    const normalized = normalizeNigerianPhone(phone);
-    if (!/^\d{4,6}$/.test(pin)) {
-      setError("Enter the 4–6 digit code from SMS.");
-      return;
-    }
+    if (pin.length !== PIN_LENGTH) return;
+    
     setLoading(true);
+    setError("");
+    
     try {
       const res = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: normalized, pin }),
+        body: JSON.stringify({ phone, pin, countryCode }),
       });
       const data = await res.json();
+      
       if (!res.ok || !data.ok) {
-        setError(data.error ?? "Invalid code. Try again.");
+        setError(data.error || "Failed to reset PIN");
         return;
       }
-      setSuccess(true);
-      setTimeout(() => router.push("/login"), 1500);
+      
+      setStep(3);
     } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  if (success) {
+  if (step === 3) {
     return (
-      <div style={{ minHeight: "100vh", background: "#f8fafc", paddingTop: 80, display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 16px" }}>
-        <div style={{ background: "#fff", borderRadius: 20, border: "1.5px solid #e5e7eb", padding: 48, maxWidth: 400, width: "100%", textAlign: "center" }}>
-          <div style={{ width: 64, height: 64, background: "#f0fdf4", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-            <FiCheckCircle style={{ color: "#16a34a", fontSize: 30 }} />
+      <div className="jj-login-page">
+        <div className="jj-login-card jj-login-card--success">
+          <div className="jj-login-success-icon">
+            <FiCheckCircle size={32} />
           </div>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: "#111827", marginBottom: 8 }}>PIN reset!</h2>
-          <p style={{ fontSize: 14, color: "#6b7280" }}>Redirecting you to sign in…</p>
+          <h2 className="jj-login-success-title">PIN Reset!</h2>
+          <p className="jj-login-success-sub">Your new PIN has been set successfully.</p>
+          <Link href="/login" className="jj-btn jj-btn--gold py-3 px-7">
+            Back to Login <FiArrowRight size={16} />
+          </Link>
         </div>
       </div>
     );
   }
 
-  const inputLabel: React.CSSProperties = { display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 };
-
   return (
-    <div style={{ minHeight: "100vh", background: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center", padding: "96px 16px 48px" }}>
-      <div style={{ width: "100%", maxWidth: 440 }}>
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <div style={{ width: 40, height: 40, background: "#00863F", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <FiBriefcase style={{ color: "#fff", fontSize: 20 }} />
+    <div className="jj-login-page">
+      <div className="jj-login-split">
+        {/* Left panel — brand */}
+        <div className="jj-login-panel jj-login-panel--brand">
+          <div className="jj-login-panel__grid" aria-hidden />
+          <div className="jj-login-panel__content">
+            <Logo variant="dark" size="lg" href="/" />
+            <h1 className="jj-login-panel__title">
+              Reset your PIN<br />
+              <span>securely.</span>
+            </h1>
+            <p className="jj-login-panel__sub">
+              Enter your registered phone number, and we&apos;ll help you securely reset your 4-digit PIN.
+            </p>
+            <div className="jj-login-panel__ussd">
+              <span className="jj-login-panel__ussd-code">*7098#</span>
+              <span className="jj-login-panel__ussd-label">Works on any network</span>
             </div>
-            <span style={{ fontSize: 22, fontWeight: 800, color: "#111827" }}>JustJobNG</span>
-          </Link>
+          </div>
         </div>
 
-        <div style={{ background: "#fff", borderRadius: 20, border: "1.5px solid #e5e7eb", padding: 28, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
-          <h2 style={{ fontSize: 20, fontWeight: 800, color: "#111827", marginBottom: 4 }}>
-            {step === "request" ? "Forgot your PIN?" : "Enter reset code"}
-          </h2>
-          <p style={{ fontSize: 13, color: "#9ca3af", marginBottom: 24 }}>
-            {step === "request"
-              ? "We'll text a reset code to your phone number."
-              : `Code sent to ${normalizedPreview}`}
-          </p>
-
-          {error && (
-            <div style={{ background: "#fef2f2", color: "#b91c1c", padding: "10px 14px", borderRadius: 10, fontSize: 13, marginBottom: 16 }}>
-              {error}
-            </div>
-          )}
-
-          {step === "request" ? (
-            <form onSubmit={handleRequest} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-              <div>
-                <label style={inputLabel}>Phone number</label>
-                <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #e2e8f0", borderRadius: 12, overflow: "hidden" }}>
-                  <FiPhone style={{ color: "#9ca3af", marginLeft: 12, flexShrink: 0 }} size={15} />
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                    placeholder="08012345678"
-                    required
-                    style={{ flex: 1, border: "none", outline: "none", padding: "12px 14px", fontSize: 14, color: "#374151", background: "transparent" }}
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                style={{
-                  background: loading ? "#6CC04A" : "#00863F",
-                  color: "#fff", border: "none", borderRadius: 12, padding: "14px",
-                  fontSize: 15, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer",
-                }}
-              >
-                {loading ? "Sending…" : "Send reset code"}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleVerify} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-              <div>
-                <label style={inputLabel}>Reset code</label>
-                <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #e2e8f0", borderRadius: 12, overflow: "hidden" }}>
-                  <FiLock style={{ color: "#9ca3af", marginLeft: 12, flexShrink: 0 }} size={15} />
-                  <input
-                    type="password"
-                    inputMode="numeric"
-                    value={pin}
-                    onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                    placeholder="4-digit code"
-                    maxLength={4}
-                    required
-                    style={{ flex: 1, border: "none", outline: "none", padding: "12px 14px", fontSize: 18, letterSpacing: "0.2em", color: "#111827", background: "transparent" }}
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                style={{
-                  background: loading ? "#6CC04A" : "#00863F",
-                  color: "#fff", border: "none", borderRadius: 12, padding: "14px",
-                  fontSize: 15, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer",
-                }}
-              >
-                {loading ? "Resetting…" : "Reset PIN"}
-              </button>
-              <button
-                type="button"
-                onClick={() => { setStep("request"); setPin(""); setError(""); }}
-                style={{ background: "none", border: "none", color: "#00863F", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
-              >
-                Use a different number
-              </button>
-            </form>
-          )}
-
-          <div style={{ marginTop: 24, textAlign: "center" }}>
-            <Link href="/login" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "#6b7280", textDecoration: "none" }}>
-              <FiArrowLeft size={14} /> Back to sign in
+        {/* Right panel — form */}
+        <div className="jj-login-panel jj-login-panel--form">
+          <div className="jj-login-form-wrap">
+            <Link href="/login" className="inline-flex items-center gap-2 text-[var(--text-muted)] text-sm font-semibold no-underline mb-8 hover:text-[var(--ink)] transition-colors">
+              <FiArrowLeft size={16} /> Back to Login
             </Link>
+
+            <div className="jj-login-form-head">
+              <h2>{step === 1 ? "Forgot your PIN?" : "Enter new PIN"}</h2>
+              <p>{step === 1 ? "Enter your phone number to continue" : "We've sent an SMS with a reset code. Enter your new PIN."}</p>
+            </div>
+
+            {error && <div className="jj-login-error">{error}</div>}
+
+            {step === 1 ? (
+              <form onSubmit={handleRequestReset} className="jj-login-form">
+                <div className="jj-login-form-group">
+                  <label className="jj-login-label">Phone number</label>
+                  <PhoneInput
+                    value={phone}
+                    onChange={setPhone}
+                    countryCode={countryCode}
+                    onCountryChange={setCountryCode}
+                  />
+                </div>
+
+                <button type="submit" disabled={phone.length < 7 || loading} className="jj-btn jj-btn--gold jj-login-submit">
+                  {loading ? (
+                    <><span className="jj-login-spinner" /> Processing…</>
+                  ) : (
+                    <>Send Reset Instructions <FiArrowRight size={16} /></>
+                  )}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleResetPin} className="jj-login-form">
+                <div className="jj-login-form-group">
+                  <label className="jj-login-label">New 4-digit PIN</label>
+                  <PinInput value={pin} onChange={setPin} placeholder="Enter new PIN" />
+                </div>
+
+                <button type="submit" disabled={pin.length !== PIN_LENGTH || loading} className="jj-btn jj-btn--gold jj-login-submit">
+                  {loading ? (
+                    <><span className="jj-login-spinner" /> Resetting PIN…</>
+                  ) : (
+                    <>Reset PIN <FiArrowRight size={16} /></>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

@@ -99,11 +99,11 @@ function PinInput({ value, onChange }: { value: string; onChange: (v: string) =>
           {show ? <FiEyeOff size={16} /> : <FiEye size={16} />}
         </button>
       </div>
-      <div className="jj-login-pin-dots" aria-hidden>
+      {/* <div className="jj-login-pin-dots" aria-hidden>
         {Array.from({ length: PIN_LENGTH }).map((_, i) => (
           <span key={i} className={`jj-login-pin-dot ${i < value.length ? "jj-login-pin-dot--filled" : ""}`} />
         ))}
-      </div>
+      </div> */}
       <p className="jj-login-pin-hint">4-digit PIN from your *7098# subscription</p>
     </div>
   );

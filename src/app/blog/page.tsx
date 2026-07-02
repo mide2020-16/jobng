@@ -1,76 +1,93 @@
 "use client";
-import { useState, useMemo } from "react";
-import { FiSearch } from "react-icons/fi";
-import BlogCard from "@/components/shared/BlogCard";
-import { blogPosts } from "@/data/blog";
 
-const categories = ["All", "Career Tips", "Hiring", "Remote Work", "Networking"];
+import { useState } from "react";
+import { FiSearch } from "react-icons/fi";
+import { blogPosts } from "@/data/blog";
+import BlogCard from "@/components/shared/BlogCard";
 
 export default function BlogPage() {
-  const [keyword, setKeyword] = useState("");
+  const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filtered = useMemo(() => {
-    return blogPosts.filter((p) => {
-      const matchesKeyword = !keyword || p.title.toLowerCase().includes(keyword.toLowerCase()) || p.excerpt.toLowerCase().includes(keyword.toLowerCase());
-      const matchesCategory = activeCategory === "All" || p.category === activeCategory;
-      return matchesKeyword && matchesCategory;
-    });
-  }, [keyword, activeCategory]);
+  const categories = ["All", ...Array.from(new Set(blogPosts.map(post => post.category)))];
+
+  const filteredPosts = blogPosts.filter(post => {
+    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase()) || 
+                          post.excerpt.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = activeCategory === "All" || post.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="bg-gradient-to-r from-gray-900 to-green-950 py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">News & Articles</h1>
-          <p className="text-green-200">Career advice, hiring tips, and industry insights</p>
+    <div className="min-h-screen bg-[var(--surface)] pb-20 animate-fade-in-up">
+      {/* Hero */}
+      <section className="bg-[var(--ink)] pt-[calc(var(--nav-height)+3rem)] pb-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_100%_0%,rgba(0,166,81,0.08)_0%,transparent_60%),radial-gradient(ellipse_40%_60%_at_0%_100%,rgba(141,198,63,0.06)_0%,transparent_50%)] pointer-events-none" />
+        <div className="container-xl relative text-center">
+          <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold text-white mb-4 -tracking-[0.02em] leading-[1.1]">
+            News & Articles
+          </h1>
+          <p className="text-white/70 text-lg max-w-[600px] mx-auto">
+            Career advice, hiring tips, and industry insights from JustJobNG
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-8">
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
+      {/* Sticky Toolbar */}
+      <div className="sticky top-[var(--nav-height)] z-30 bg-[var(--surface-elevated)] border-b border-[var(--border)] shadow-[var(--shadow-sm)]">
+        <div className="container-xl flex flex-row gap-4 py-4 items-center justify-between flex-wrap">
+          
+          {/* Categories */}
+          <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+            {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`text-sm px-4 py-2 rounded-full font-medium transition-colors ${
-                  activeCategory === cat
-                    ? "bg-green-600 text-white"
-                    : "bg-white border border-gray-200 text-gray-600 hover:border-green-300 hover:text-green-600"
+                className={`jj-pill whitespace-nowrap cursor-pointer transition-colors ${
+                  activeCategory === cat 
+                    ? 'bg-[var(--gold)] text-white border-[var(--gold)]' 
+                    : 'bg-[var(--surface)] text-[var(--ink)] border-[var(--border)] hover:bg-[var(--surface-elevated)]'
                 }`}
               >
                 {cat}
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2.5 w-full sm:w-auto sm:min-w-[220px]">
-            <FiSearch className="text-green-500 shrink-0" size={15} />
-            <input
+
+          {/* Search */}
+          <div className="relative min-w-[250px] flex-[1_1_auto] max-w-[400px]">
+            <FiSearch size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-faint)]" />
+            <input 
               type="text"
               placeholder="Search articles..."
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              className="w-full text-sm outline-none text-gray-700 placeholder-gray-400"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full py-2.5 pr-3.5 pl-9 rounded-[var(--radius-sm)] border border-[var(--border-strong)] outline-none bg-[var(--surface)] focus:border-[var(--gold)] focus:ring-[2px] focus:ring-[var(--gold-muted)] transition-all"
             />
           </div>
         </div>
+      </div>
 
-        {filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="text-5xl mb-4">📝</div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">No articles found</h3>
-            <p className="text-gray-500">Try a different search term or category</p>
+      {/* Main Content */}
+      <section className="container-xl mt-8">
+        <div className="mb-8 text-[15px] font-semibold text-[var(--text-muted)]">
+          Showing {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''}
+        </div>
+
+        {filteredPosts.length === 0 ? (
+          <div className="text-center py-24">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-2xl font-extrabold text-[var(--ink)] mb-2">No articles found</h3>
+            <p className="text-[var(--text-muted)]">Try adjusting your search or category filter.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((post) => (
-              <BlogCard key={post.id} post={post} />
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8">
+            {filteredPosts.map((post, i) => (
+              <BlogCard key={post.id} post={post} featured={i === 0 && activeCategory === "All" && search === ""} />
             ))}
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }

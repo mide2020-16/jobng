@@ -99,4 +99,5 @@ export interface PricingPlan {
   features: string[];
   highlighted: boolean;
   badge?: string;
+  isPopular: boolean;
 }

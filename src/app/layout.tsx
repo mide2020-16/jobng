@@ -43,6 +43,8 @@ export const viewport: Viewport = {
   themeColor: "#0A0F1C",
 };
 
+// app/layout.tsx
+
 export default function RootLayout({
   children,
 }: {
@@ -54,10 +56,13 @@ export default function RootLayout({
       className={`${plusJakarta.variable} ${dmSans.variable} scroll-smooth`}
       suppressHydrationWarning
     >
-      <body className="font-body antialiased min-h-screen flex flex-col bg-[var(--surface)] text-[var(--ink)]">
+      <body className="font-body antialiased min-h-screen flex flex-col bg-(--ink) text-(--surface)">
         <AuthProvider>
           <Navbar />
-          <main className="flex-grow">{children}</main>
+          {/* Added pt-(--spacing-nav-height) to push content below the fixed navbar */}
+          <main className="grow pt-(--spacing-nav-height)">
+            {children}
+          </main>
           <Footer />
         </AuthProvider>
       </body>

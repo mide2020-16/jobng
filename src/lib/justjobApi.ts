@@ -93,6 +93,30 @@ export async function forgotPassword(body: {
   return { ok: res.ok, status: res.status, data: await parseJson(res) };
 }
 
+export async function verifyOtp(body: {
+  phone_number: string;
+  otp: string;
+}): Promise<ApiResult> {
+  const res = await fetch(`${API_BASE_URL}/api/justjob/verify/otp/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return { ok: res.ok, status: res.status, data: await parseJson(res) };
+}
+
+export async function changePassword(body: {
+  old_pin: string;
+  new_pin: string;
+}): Promise<ApiResult> {
+  const res = await fetch(`${API_BASE_URL}/api/justjob/change/password/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return { ok: res.ok, status: res.status, data: await parseJson(res) };
+}
+
 export async function updatePassword({
   number,
   pin,

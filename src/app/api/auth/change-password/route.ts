@@ -1,29 +1,27 @@
 import { NextResponse } from "next/server";
 import { normalizeNigerianPhone } from "@/lib/phone";
-import { updatePassword } from "@/lib/justjobApi";
+import { changePassword, extractError } from "@/lib/justjobApi";
 
-export interface confirmBodyData {
+export interface ChangePasswordBody {
   number: string;
   countryCode?: string;
+  old_pin: string;
   pin: string;
-  confirm_pin: string; 
+  confirm_pin: string;
 }
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json() as confirmBodyData;
-    
-    // 1. Sanitize and Format Inputs
+    const body = (await request.json()) as ChangePasswordBody;
+
     const number = normalizeNigerianPhone(body.number, body.countryCode);
+    const old_pin = body.old_pin?.trim();
     const pin = body.pin?.trim();
     const confirm_pin = body.confirm_pin?.trim();
 
-    console.log("Sanitized Payload:", { number, pin, confirm_pin });
-
-    // 2. Basic Validation
-    if (!number || !pin || !confirm_pin) {
+    if (!number || !old_pin || !pin || !confirm_pin) {
       return NextResponse.json(
-        { error: "Missing required fields: phone, pin, or confirm_pin." },
+        { error: "Missing required fields: phone, old_pin, pin, or confirm_pin." },
         { status: 400 }
       );
     }
@@ -41,37 +39,30 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    
-    // 3. Call External API (AWAIT the promise)
-    const result = await updatePassword({
-      number,
-      pin,
-      confirm_pin
-    });
 
-    // 4. Handle External API Errors
-    if (!result.ok) {
-      // Check specifically for your exact OTP string
-      if (result.message) {
-        return NextResponse.json(
-          { message: result.message },
-          { status: result.status || 400 }
-        );
-      }
-
-      // Handle any other errors the external API might throw
+    if (pin === old_pin) {
       return NextResponse.json(
-        { error: result.message || "Failed to update PIN via external service." },
-        { status: result.status }
+        { error: "New PIN must be different from your current PIN." },
+        { status: 400 }
       );
     }
 
-    // 5. Success Response (200 OK)
+    const result = await changePassword({
+      old_pin: old_pin,
+      new_pin: pin,
+    });
+
+    if (!result.ok) {
+      return NextResponse.json(
+        { error: extractError(result.data) },
+        { status: result.status || 400 }
+      );
+    }
+
     return NextResponse.json(
-      { message: result.message || "PIN successfully updated." },
+      { message: "PIN successfully updated." },
       { status: 200 }
     );
-
   } catch (error) {
     console.error("Change Password Proxy Error:", error);
     return NextResponse.json(

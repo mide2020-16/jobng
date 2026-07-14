@@ -1,14 +1,13 @@
 "use client";
-
 import React, { useState } from "react";
 
 export default function ChangePassword() {
   const [formData, setFormData] = useState({
     number: "",
+    old_pin: "",
     pin: "",
     confirm_pin: "",
   });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -24,18 +23,24 @@ export default function ChangePassword() {
     e.preventDefault();
 
     // Basic frontend validation
-    if (!formData.number || !formData.pin || !formData.confirm_pin) {
+    if (!formData.number || !formData.old_pin || !formData.pin || !formData.confirm_pin) {
       setError("Please fill out all fields.");
       return;
     }
-
+    if (formData.old_pin.length < 4) {
+      setError("Enter your current 4-digit PIN.");
+      return;
+    }
     if (formData.pin !== formData.confirm_pin) {
       setError("PINs do not match. Please try again.");
       return;
     }
-
     if (formData.pin.length < 4) {
       setError("PIN must be at least 4 digits.");
+      return;
+    }
+    if (formData.pin === formData.old_pin) {
+      setError("New PIN must be different from your current PIN.");
       return;
     }
 
@@ -50,6 +55,7 @@ export default function ChangePassword() {
         },
         body: JSON.stringify({
           number: formData.number,
+          old_pin: formData.old_pin,
           pin: formData.pin,
           confirm_pin: formData.confirm_pin,
         }),
@@ -58,13 +64,14 @@ export default function ChangePassword() {
       if (response.ok) {
         setSuccess(true);
         // Optional: clear form
-        setFormData({ number: "", pin: "", confirm_pin: "" });
+        setFormData({ number: "", old_pin: "", pin: "", confirm_pin: "" });
       } else {
         // Handle 400 Bad Request or other errors
         const data = await response.json().catch(() => ({}));
         setError(data.message || "Failed to change password. Please check your details.");
       }
     } catch (err) {
+      console.log(err)
       setError("A network error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -103,13 +110,11 @@ export default function ChangePassword() {
         <h2>Change PIN</h2>
         <p>Update the access PIN for your JustJobNG account.</p>
       </div>
-
       {error && (
         <div className="jj-login-error animate-fade-in-up">
           {error}
         </div>
       )}
-
       <form onSubmit={handleSubmit} className="jj-login-form">
         {/* Phone Number Field */}
         <div className="jj-login-form-group">
@@ -132,6 +137,29 @@ export default function ChangePassword() {
           </div>
         </div>
 
+        {/* Old PIN Field */}
+        <div className="jj-login-form-group">
+          <label htmlFor="old_pin" className="jj-login-label">
+            Current PIN
+          </label>
+          <div className="jj-login-field jj-login-field--pin">
+            <div className="jj-login-field__input-wrap">
+              <input
+                id="old_pin"
+                name="old_pin"
+                type="password"
+                placeholder="••••"
+                maxLength={4}
+                value={formData.old_pin}
+                onChange={handleChange}
+                className="jj-login-field__input jj-login-field__input--pin tracking-widest"
+                disabled={loading}
+                autoComplete="current-password"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* New PIN Field */}
         <div className="jj-login-form-group">
           <label htmlFor="pin" className="jj-login-label">
@@ -149,6 +177,7 @@ export default function ChangePassword() {
                 onChange={handleChange}
                 className="jj-login-field__input jj-login-field__input--pin tracking-widest"
                 disabled={loading}
+                autoComplete="new-password"
               />
             </div>
           </div>
@@ -171,6 +200,7 @@ export default function ChangePassword() {
                 onChange={handleChange}
                 className="jj-login-field__input jj-login-field__input--pin tracking-widest"
                 disabled={loading}
+                autoComplete="new-password"
               />
             </div>
           </div>

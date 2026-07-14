@@ -106,8 +106,8 @@ export async function verifyOtp(body: {
 }
 
 export async function changePassword(body: {
-  old_pin: string;
   new_pin: string;
+  old_pin: string;
 }): Promise<ApiResult> {
   const res = await fetch(`${API_BASE_URL}/api/justjob/change/password/`, {
     method: "POST",

@@ -48,8 +48,8 @@ export async function POST(request: Request) {
     }
 
     const result = await changePassword({
-      old_pin: old_pin,
       new_pin: pin,
+      old_pin,
     });
 
     if (!result.ok) {

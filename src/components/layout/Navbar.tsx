@@ -91,7 +91,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 h-(--spacing-nav-height) flex items-center bg-white backdrop-blur-md shadow-[0_1px_0_rgba(15,23,42,0.08)]">
+      <header className="fixed top-0 left-0 right-0 z-50 h-(--spacing-nav-height) flex items-center bg-white shadow-[0_1px_0_rgba(15,23,42,0.08)]">
         <div className="container-xl flex items-center justify-between gap-4 w-full">
           {isAuthenticated ? <Logo variant="dark" size="md" href="/jobs"/> : <Logo variant="dark" size="md" />}
           
@@ -131,8 +131,8 @@ export default function Navbar() {
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 top-[calc(100%+12px)] w-72 bg-surface-elevated rounded-xl shadow-[0_16px_40px_rgba(15,23,42,0.16)] border border-border-strong overflow-hidden z-50">
-                    <div className="flex items-center gap-3 p-5 bg-surface/60">
+                  <div className="absolute right-0 top-[calc(100%+12px)] w-72 bg-white rounded-xl border border-border-strong overflow-hidden z-50">
+                    <div className="flex items-center gap-3 p-5">
                       <Avatar size={44} />
                       <div className="min-w-0">
                         <p className="font-display text-[15px] font-bold text-ink truncate tracking-tight">{phone ?? "No phone on file"}</p>
@@ -189,15 +189,14 @@ export default function Navbar() {
         />
       )}
 
-      <div className={`fixed top-0 right-0 h-full w-75 max-w-[85vw] bg-surface-elevated z-51 shadow-lg flex flex-col transition-transform duration-350 ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}>
-        <div className="flex items-center justify-between p-[18px_20px] border-b border-border-strong">
-          <Logo size="sm" />
+      <div className={`fixed top-0 right-0 h-full w-75 max-w-[85vw] bg-white z-51 shadow-lg flex flex-col transition-transform duration-350 ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}>
+        <div className="flex items-center justify-end p-[18px_20px] border-b border-border-strong">
           <button type="button" onClick={() => setMobileOpen(false)} className="bg-transparent border-none cursor-pointer text-text-muted p-1" aria-label="Close menu">
             <FiX size={20} />
           </button>
         </div>
 
-        <nav className="py-3 flex-1 overflow-y-auto">
+        <nav className="py-4 flex-1 overflow-y-auto">
           {navLinks.map((link) => (
             <Link
               key={link.href}

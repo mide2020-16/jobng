@@ -66,7 +66,7 @@ export default function Logo({
 
   const content = (
     <span
-      className={`logo-wrap ${className}`}
+      className={`logo-wrap z-100 ${className}`}
       style={{ display: "inline-flex", alignItems: "center", gap: s.gap, textDecoration: "none" }}
     >
       <LogoMark size={s.mark} animated={animated} />
